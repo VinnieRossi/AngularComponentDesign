@@ -49,8 +49,7 @@ export class ${container.containerName}Component implements OnInit {
 
   ${listOfEmitterHandlers.join('\n')}
 
-}`
-    );
+}`);
 
     return componentAsTypescriptString;
   }

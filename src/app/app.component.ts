@@ -28,7 +28,7 @@ export class AppComponent {
       applicationStyling: 'css'
     };
 
-    const component: ComponentModel = {
+    const component1: ComponentModel = {
       componentName: 'HelloWorld',
       inputProperties: [
         //TODO: Have option to generate input with separate name (eg @Input('account-id') id: string;)
@@ -68,26 +68,24 @@ export class AppComponent {
       ],
       eventEmitters: [
         {
-          emitterName: 'close',
+          emitterName: 'banana',
           emitterPropertyType: SupportedTypescriptTypes.Any
         },
         {
-          emitterName: 'edit',
+          emitterName: 'apple',
           emitterPropertyType: SupportedTypescriptTypes.Any
         }
       ]
     };
 
+    const allComponents: Array<ComponentModel> = [component1, component2];
 
     const container: ContainerModel = {
       containerName: 'HelloWorldContainer',
-      components: [
-        component,
-        component2
-      ]
+      components: allComponents
     };
 
-    const componentCode: ComponentCode = this.componentCreationService.createComponentCode(component, defaultApplicationSettings);
+    const componentCode: Array<ComponentCode> = allComponents.map(component => this.componentCreationService.createComponentCode(component, defaultApplicationSettings));
     const containerCode: ComponentCode = this.containerCreationService.createContainerCode(container, defaultApplicationSettings);
 
   }

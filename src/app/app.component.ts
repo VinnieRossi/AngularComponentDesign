@@ -1,8 +1,12 @@
+import { ComponentCreationService } from './component-creation.service';
 import { ComponentModel, SupportedTypescriptTypes } from './component.model';
 import { ComponentToHtmlService } from './component-to-html.service';
 import { ComponentToTsService } from './component-to-ts.service';
 import { Component } from '@angular/core';
 import { ApplicationSettings } from './application-settings.model';
+import { ContainerCreationService } from './container-creation.service';
+import { ContainerModel } from './container.model';
+import { ComponentCode } from './component-code.model';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +17,8 @@ export class AppComponent {
   title = 'AngularComponentPlanning';
 
   constructor(
-    private componentToTsService: ComponentToTsService,
-    private componentToHtmlService: ComponentToHtmlService
+    private componentCreationService: ComponentCreationService,
+    private containerCreationService: ContainerCreationService
   ) {
 
     // TODO: Ask user for user-defined application settings
@@ -33,7 +37,7 @@ export class AppComponent {
           propertyType: SupportedTypescriptTypes.String
         },
         {
-          propertyName: 'bankName',
+          propertyName: 'accountName',
           propertyType: SupportedTypescriptTypes.String
         }
       ],
@@ -43,17 +47,48 @@ export class AppComponent {
           emitterPropertyType: SupportedTypescriptTypes.Any
         },
         {
-          emitterName: 'close',
+          emitterName: 'edit',
           emitterPropertyType: SupportedTypescriptTypes.Any
         }
       ]
     };
 
-    // TODO: Make the app settings reachable from shared locations 
-    const typescriptAsString: string = this.componentToTsService.generateTypescriptForComponent(component, defaultApplicationSettings);
-    const htmlAsString: string = this.componentToHtmlService.generateHtmlForComponent(component, defaultApplicationSettings);
+    const component2: ComponentModel = {
+      componentName: 'GoodbyeWorld',
+      inputProperties: [
+        //TODO: Have option to generate input with separate name (eg @Input('account-id') id: string;)
+        {
+          propertyName: 'charName',
+          propertyType: SupportedTypescriptTypes.String
+        },
+        {
+          propertyName: 'barName',
+          propertyType: SupportedTypescriptTypes.String
+        }
+      ],
+      eventEmitters: [
+        {
+          emitterName: 'close',
+          emitterPropertyType: SupportedTypescriptTypes.Any
+        },
+        {
+          emitterName: 'edit',
+          emitterPropertyType: SupportedTypescriptTypes.Any
+        }
+      ]
+    };
 
-    console.log(`Typescript was: \n${typescriptAsString}`);
-    console.log(`Html was: \n${htmlAsString}`);
+
+    const container: ContainerModel = {
+      containerName: 'HelloWorldContainer',
+      components: [
+        component,
+        component2
+      ]
+    };
+
+    const componentCode: ComponentCode = this.componentCreationService.createComponentCode(component, defaultApplicationSettings);
+    const containerCode: ComponentCode = this.containerCreationService.createContainerCode(container, defaultApplicationSettings);
+
   }
 }

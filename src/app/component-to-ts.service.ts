@@ -18,8 +18,8 @@ export class ComponentToTsService {
     const listOfEventEmitters: Array<string> = this.generateEventEmittersAsStrings(component.eventEmitters, appSettings.indentAmount);
 
     // TODO: Handle different styling (scss, sass, etc.)
-    const componentAsTypescriptString: string = (`
-import { Component, OnInit } from '@angular/core';
+    const componentAsTypescriptString: string = (
+      `import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: '${appSettings.applicationPrefix}-${componentNameKebabCase}',

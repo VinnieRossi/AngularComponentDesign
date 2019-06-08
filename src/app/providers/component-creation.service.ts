@@ -1,9 +1,9 @@
-import { ApplicationSettings } from './application-settings.model';
+import { ApplicationSettings } from '../models/application-settings.model';
 import { Injectable } from '@angular/core';
-import { ComponentModel } from './component.model';
+import { ComponentModel } from '../models/component.model';
 import { ComponentToTsService } from './component-to-ts.service';
 import { ComponentToHtmlService } from './component-to-html.service';
-import { ComponentCode } from './component-code.model';
+import { ComponentCode } from '../models/component-code.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,8 @@ export class ComponentCreationService {
     const typescriptAsString: string = this.componentToTsService.generateTypescriptForComponent(component, appSettings);
     const htmlAsString: string = this.componentToHtmlService.generateHtmlForComponent(component, appSettings);
 
-    console.log(`Typescript for component was: \n${typescriptAsString}`);
-    console.log(`Html for component was: \n${htmlAsString}`);
+    // console.log(`Typescript for component was: \n${typescriptAsString}`);
+    // console.log(`Html for component was: \n${htmlAsString}`);
 
     const componentCode: ComponentCode = {
       typescript: typescriptAsString,

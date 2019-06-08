@@ -1,6 +1,6 @@
 import { kebabCase } from 'lodash';
-import { ApplicationSettings } from './application-settings.model';
-import { ComponentModel } from './component.model';
+import { ApplicationSettings } from '../models/application-settings.model';
+import { ComponentModel } from '../models/component.model';
 import { Injectable } from '@angular/core';
 
 @Injectable({

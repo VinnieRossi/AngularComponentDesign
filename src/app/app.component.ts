@@ -1,12 +1,11 @@
-import { ComponentCreationService } from './component-creation.service';
-import { ComponentModel, SupportedTypescriptTypes } from './component.model';
-import { ComponentToHtmlService } from './component-to-html.service';
-import { ComponentToTsService } from './component-to-ts.service';
+import { ComponentCreationService } from './providers/component-creation.service';
+import { ComponentModel, SupportedTypescriptTypes } from './models/component.model';
 import { Component } from '@angular/core';
-import { ApplicationSettings } from './application-settings.model';
-import { ContainerCreationService } from './container-creation.service';
-import { ContainerModel } from './container.model';
-import { ComponentCode } from './component-code.model';
+import { ApplicationSettings } from './models/application-settings.model';
+import { ContainerCreationService } from './providers/container-creation.service';
+import { ContainerModel } from './models/container.model';
+import { ComponentCode } from './models/component-code.model';
+import { ModuleCode } from './models/module-code.model';
 
 @Component({
   selector: 'app-root',
@@ -80,13 +79,22 @@ export class AppComponent {
 
     const allComponents: Array<ComponentModel> = [component1, component2];
 
-    const container: ContainerModel = {
+    const container1: ContainerModel = {
       containerName: 'HelloWorldContainer',
       components: allComponents
     };
 
+    const allContainers: Array<ContainerModel> = [container1];
+
     const componentCode: Array<ComponentCode> = allComponents.map(component => this.componentCreationService.createComponentCode(component, defaultApplicationSettings));
-    const containerCode: ComponentCode = this.containerCreationService.createContainerCode(container, defaultApplicationSettings);
+    const containerCode: Array<ComponentCode> = allContainers.map(container => this.containerCreationService.createContainerCode(container, defaultApplicationSettings));
+
+    const moduleCode: ModuleCode = {
+      containers: [containerCode],
+      components: [componentCode]
+    };
+
+    console.log(moduleCode);
 
   }
 }

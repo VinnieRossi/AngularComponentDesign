@@ -1,7 +1,7 @@
-import { ComponentModel, PropertyModel, EventEmitterModel } from './component.model';
+import { ComponentModel, PropertyModel, EventEmitterModel } from '../models/component.model';
 import { Injectable } from '@angular/core';
 import { kebabCase } from 'lodash';
-import { ApplicationSettings } from './application-settings.model';
+import { ApplicationSettings } from '../models/application-settings.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
-import { ComponentCode } from './component-code.model';
+import { ComponentCode } from '../models/component-code.model';
 import { Injectable } from '@angular/core';
-import { ApplicationSettings } from './application-settings.model';
-import { ContainerModel } from './container.model';
+import { ApplicationSettings } from '../models/application-settings.model';
+import { ContainerModel } from '../models/container.model';
 import { ContainerToTsService } from './container-to-ts.service';
 import { ContainerToHtmlService } from './container-to-html.service';
 
@@ -21,8 +21,8 @@ export class ContainerCreationService {
     const typescriptAsString: string = this.containerToTsService.generateTypescriptForContainer(container, appSettings);
     const htmlAsString: string = this.containerToHtmlService.generateHtmlForContainer(container, appSettings);
 
-    console.log(`Typescript for container was: \n${typescriptAsString}`);
-    console.log(`Html for container was: \n${htmlAsString}`);
+    // console.log(`Typescript for container was: \n${typescriptAsString}`);
+    // console.log(`Html for container was: \n${htmlAsString}`);
 
     const containerCode: ComponentCode = {
       typescript: typescriptAsString,

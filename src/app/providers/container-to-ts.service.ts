@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ContainerModel } from './container.model';
-import { ApplicationSettings } from './application-settings.model';
+import { ContainerModel } from '../models/container.model';
+import { ApplicationSettings } from '../models/application-settings.model';
 import { kebabCase, flatten, capitalize } from 'lodash';
-import { PropertyModel, EventEmitterModel } from './component.model';
+import { PropertyModel, EventEmitterModel } from '../models/component.model';
 
 @Injectable({
   providedIn: 'root'

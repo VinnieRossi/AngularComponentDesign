@@ -1,8 +1,9 @@
 import { ContainerModel } from './../models/container.model';
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-// import { uuidv1 } from 'uuid/v1';
+import { cloneDeep } from 'lodash';
 const uuidv1 = require('uuid/v1');
+
 
 @Component({
   selector: 'app-create-container-modal',
@@ -27,7 +28,10 @@ export class CreateContainerModalComponent implements OnInit {
   }
 
   handleCreateContainer(): void {
-    this.activeModal.close(this.containerModel);
+
+    const modelCopy: ContainerModel = cloneDeep(this.containerModel);
+
+    this.activeModal.close(modelCopy);
   }
 
 }

@@ -9,6 +9,7 @@ import { ModuleCode } from './models/module-code.model';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateContainerModalComponent } from './create-container-modal/create-container-modal.component';
 import { EditContainerModalComponent } from './edit-container-modal/edit-container-modal.component';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-root',
@@ -57,7 +58,8 @@ export class AppComponent {
   editContainer(container: ContainerModel): void {
 
     const modalRef: NgbModalRef = this.modalService.open(EditContainerModalComponent);
-    modalRef.componentInstance.containerModel = container;
+    const containerRef: ContainerModel = cloneDeep(container);
+    modalRef.componentInstance.containerModel = containerRef;
 
     modalRef.result.then(result => {
       if (result) {

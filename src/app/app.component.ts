@@ -6,6 +6,9 @@ import { ContainerCreationService } from './providers/container-creation.service
 import { ContainerModel } from './models/container.model';
 import { ComponentCode } from './models/component-code.model';
 import { ModuleCode } from './models/module-code.model';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CreateContainerModalComponent } from './create-container-modal/create-container-modal.component';
+import { EditContainerModalComponent } from './edit-container-modal/edit-container-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -20,59 +23,97 @@ export class AppComponent {
     applicationStyling: 'css'
   };
 
+  containers: Array<ContainerModel> = [];
+  components: Array<ComponentModel> = [];
+
   constructor(
     private componentCreationService: ComponentCreationService,
-    private containerCreationService: ContainerCreationService
+    private containerCreationService: ContainerCreationService,
+    private modalService: NgbModal
   ) { }
 
-  generateModuleCode() {
+  createContainer(): void {
+
+    const modalRef: NgbModalRef = this.modalService.open(CreateContainerModalComponent);
+
+    modalRef.result.then(result => {
+      if (result) {
+        this.containers.push(result);
+      }
+    });
+  }
+
+  createComponent(): void {
+
+    const newComponent: ComponentModel = {
+      name: 'b',
+      inputProperties: [],
+      eventEmitters: []
+    };
+
+    this.components.push(newComponent);
+  }
+
+  editContainer(container: ContainerModel): void {
+
+    const modalRef: NgbModalRef = this.modalService.open(EditContainerModalComponent);
+    modalRef.componentInstance.containerModel = container;
+
+    modalRef.result.then(result => {
+      if (result) {
+        this.containers = [...this.containers.filter(items => items.id !== result.id), result];
+      }
+    });
+  }
+
+  generateModuleCode(): void {
 
     const component1: ComponentModel = {
-      componentName: 'HelloWorld',
+      name: 'HelloWorld',
       inputProperties: [
         //TODO: Have option to generate input with separate name (eg @Input('account-id') id: string;)
         {
-          propertyName: 'bankName',
-          propertyType: SupportedTypescriptTypes.String
+          name: 'bankName',
+          type: SupportedTypescriptTypes.String
         },
         {
-          propertyName: 'accountName',
-          propertyType: SupportedTypescriptTypes.String
+          name: 'accountName',
+          type: SupportedTypescriptTypes.String
         }
       ],
       eventEmitters: [
         {
-          emitterName: 'close',
-          emitterPropertyType: SupportedTypescriptTypes.Any
+          name: 'close',
+          type: SupportedTypescriptTypes.Any
         },
         {
-          emitterName: 'edit',
-          emitterPropertyType: SupportedTypescriptTypes.Any
+          name: 'edit',
+          type: SupportedTypescriptTypes.Any
         }
       ]
     };
 
     const component2: ComponentModel = {
-      componentName: 'GoodbyeWorld',
+      name: 'GoodbyeWorld',
       inputProperties: [
         //TODO: Have option to generate input with separate name (eg @Input('account-id') id: string;)
         {
-          propertyName: 'charName',
-          propertyType: SupportedTypescriptTypes.String
+          name: 'charName',
+          type: SupportedTypescriptTypes.String
         },
         {
-          propertyName: 'barName',
-          propertyType: SupportedTypescriptTypes.String
+          name: 'barName',
+          type: SupportedTypescriptTypes.String
         }
       ],
       eventEmitters: [
         {
-          emitterName: 'banana',
-          emitterPropertyType: SupportedTypescriptTypes.Any
+          name: 'banana',
+          type: SupportedTypescriptTypes.Any
         },
         {
-          emitterName: 'apple',
-          emitterPropertyType: SupportedTypescriptTypes.Any
+          name: 'apple',
+          type: SupportedTypescriptTypes.Any
         }
       ]
     };
@@ -80,7 +121,8 @@ export class AppComponent {
     const allComponents: Array<ComponentModel> = [component1, component2];
 
     const container1: ContainerModel = {
-      containerName: 'HelloWorldContainer',
+      id: '1',
+      name: 'HelloWorldContainer',
       components: allComponents
     };
 

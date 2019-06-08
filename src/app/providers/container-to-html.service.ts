@@ -13,7 +13,7 @@ export class ContainerToHtmlService {
 
   generateHtmlForContainer(container: ContainerModel, appSettings: ApplicationSettings): string {
 
-    const containerNameKebabCase: string = kebabCase(container.containerName);
+    const containerNameKebabCase: string = kebabCase(container.name);
 
     const componentAsHtmlString: Array<string> = container.components
       .map(component => this.createHtmlForComponent(component, appSettings));
@@ -28,12 +28,12 @@ ${componentAsHtmlString.join('\n\n')}
 
   private createHtmlForComponent(component: ComponentModel, appSettings: ApplicationSettings): string {
 
-    const properties: Array<string> = component.inputProperties.map(prop => `[${prop.propertyName}]="${prop.propertyName}"`);
+    const properties: Array<string> = component.inputProperties.map(prop => `[${prop.name}]="${prop.name}"`);
 
-    const events: Array<string> = component.eventEmitters.map(event => `(${event.emitterName})="on${capitalize(event.emitterName)}($event)"`);
+    const events: Array<string> = component.eventEmitters.map(event => `(${event.name})="on${capitalize(event.name)}($event)"`);
 
     const html: string =
-      `<${appSettings.applicationPrefix}-${kebabCase(component.componentName)} ${properties.join(' ')} ${events.join(' ')}></${appSettings.applicationPrefix}-${kebabCase(component.componentName)}>`;
+      `<${appSettings.applicationPrefix}-${kebabCase(component.name)} ${properties.join(' ')} ${events.join(' ')}></${appSettings.applicationPrefix}-${kebabCase(component.name)}>`;
 
     return html;
   }

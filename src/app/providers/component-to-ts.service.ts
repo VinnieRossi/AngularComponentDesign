@@ -12,7 +12,7 @@ export class ComponentToTsService {
 
   generateTypescriptForComponent(component: ComponentModel, appSettings: ApplicationSettings): string {
 
-    const componentNameKebabCase: string = kebabCase(component.componentName);
+    const componentNameKebabCase: string = kebabCase(component.name);
 
     const listOfInputProperties: Array<string> = this.generateInputPropertiesAsStrings(component.inputProperties, appSettings.indentAmount);
     const listOfEventEmitters: Array<string> = this.generateEventEmittersAsStrings(component.eventEmitters, appSettings.indentAmount);
@@ -26,7 +26,7 @@ export class ComponentToTsService {
   templateUrl: './${componentNameKebabCase}.component.html',
   styleUrls: ['./${componentNameKebabCase}.component.${appSettings.applicationStyling || 'css'}']
 })
-export class ${component.componentName}Component implements OnInit {
+export class ${component.name}Component implements OnInit {
 
   ${listOfInputProperties.join('\n')}
 
@@ -66,7 +66,7 @@ export class ${component.componentName}Component implements OnInit {
 
   private convertInputPropertyToString(inputProperty: PropertyModel): string {
 
-    const inputAsString: string = `@Input() ${inputProperty.propertyName}: ${inputProperty.propertyType};`;
+    const inputAsString: string = `@Input() ${inputProperty.name}: ${inputProperty.type};`;
 
     return inputAsString;
 
@@ -74,7 +74,7 @@ export class ${component.componentName}Component implements OnInit {
 
   private convertEventEmitterToString(eventEmitter: EventEmitterModel): string {
 
-    const emitterAsString: string = `@Output() ${eventEmitter.emitterName}: EventEmitter<${eventEmitter.emitterPropertyType}> = new EventEmitter();`;
+    const emitterAsString: string = `@Output() ${eventEmitter.name}: EventEmitter<${eventEmitter.type}> = new EventEmitter();`;
 
     return emitterAsString;
 

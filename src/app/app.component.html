@@ -1,18 +1,32 @@
 <h2>Application Settings</h2>
-<section>
 
+<section>
   <label for="">Indentation:</label>
-  <input type="text" placeholder="2" [value]="userSettings.indentAmount">
+  <input type="text" placeholder="2" [(ngModel)]="userSettings.indentAmount">
 
   <label for="">Application prefix:</label>
-  <input type="text" placeholder="app" [value]="userSettings.applicationPrefix">
+  <input type="text" placeholder="app" [(ngModel)]="userSettings.applicationPrefix">
 
   <label for="">Application Styling:</label>
-  <input type="text" placeholder="css" [value]="userSettings.applicationStyling">
-
-
+  <input type="text" placeholder="css" [(ngModel)]="userSettings.applicationStyling">
 </section>
 
+<section>
+  <div *ngFor="let container of containers">
+    {{container.name}}
+    <button (click)="editContainer(container)">Edit Container</button>
+  </div>
+</section>
+
+<section>
+  <div *ngFor="let component of components">
+    {{component.name}}
+    <button>Edit Component</button>
+  </div>
+</section>
+
+<button (click)="createContainer()">Add Container</button>
+<button (click)="createComponent()">Add Component</button>
 <button (click)="generateModuleCode()">Generate Code</button>
 
 <router-outlet></router-outlet>

@@ -12,7 +12,7 @@ export class ComponentToHtmlService {
 
   generateHtmlForComponent(component: ComponentModel, appSettings: ApplicationSettings): string {
 
-    const componentNameKebabCase: string = kebabCase(component.componentName);
+    const componentNameKebabCase: string = kebabCase(component.name);
 
     return `<p>${componentNameKebabCase} works!<\\p>`;
   }

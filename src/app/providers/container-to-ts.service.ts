@@ -13,7 +13,7 @@ export class ContainerToTsService {
 
   generateTypescriptForContainer(container: ContainerModel, appSettings: ApplicationSettings): string {
 
-    const containerNameKebabCase: string = kebabCase(container.containerName);
+    const containerNameKebabCase: string = kebabCase(container.name);
 
     const childComponentProperties: Array<Array<string>> = container.components
       .map(component => this.generateLocalPropertiesAsStrings(component.inputProperties));
@@ -38,7 +38,7 @@ export class ContainerToTsService {
   templateUrl: './${containerNameKebabCase}.component.html',
   styleUrls: ['./${containerNameKebabCase}.component.${appSettings.applicationStyling || 'css'}']
 })
-export class ${container.containerName}Component implements OnInit {
+export class ${container.name}Component implements OnInit {
 
   ${listOfLocalProperties.join('\n')}
 
@@ -56,14 +56,14 @@ export class ${container.containerName}Component implements OnInit {
 
   private generateEmitterHandlersAsStrings(eventEmitters: Array<EventEmitterModel>): Array<string> {
 
-    const emitterHandlersAsStrings: Array<string> = eventEmitters.map(event => `private on${capitalize(event.emitterName)}(event: ${event.emitterPropertyType}): void { }`);
+    const emitterHandlersAsStrings: Array<string> = eventEmitters.map(event => `private on${capitalize(event.name)}(event: ${event.type}): void { }`);
 
     return emitterHandlersAsStrings;
   }
 
   private generateLocalPropertiesAsStrings(inputProperties: Array<PropertyModel>): Array<string> {
 
-    const propertiesAsStrings: Array<string> = inputProperties.map(prop => `private ${prop.propertyName}: ${prop.propertyType};`);
+    const propertiesAsStrings: Array<string> = inputProperties.map(prop => `private ${prop.name}: ${prop.type};`);
 
     return propertiesAsStrings;
   }

@@ -1,6 +1,7 @@
 import { ComponentModel } from './component.model';
 
 export interface ContainerModel {
-    containerName: string;
+    id: string;
+    name: string;
     components: Array<ComponentModel>;
 }

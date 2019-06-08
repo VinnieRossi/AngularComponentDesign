@@ -13,19 +13,19 @@ import { ModuleCode } from './models/module-code.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'AngularComponentPlanning';
+
+  userSettings: ApplicationSettings = {
+    applicationPrefix: 'app',
+    indentAmount: 2,
+    applicationStyling: 'css'
+  };
 
   constructor(
     private componentCreationService: ComponentCreationService,
     private containerCreationService: ContainerCreationService
-  ) {
+  ) { }
 
-    // TODO: Ask user for user-defined application settings
-    const defaultApplicationSettings: ApplicationSettings = {
-      applicationPrefix: 'app',
-      indentAmount: 2,
-      applicationStyling: 'css'
-    };
+  generateModuleCode() {
 
     const component1: ComponentModel = {
       componentName: 'HelloWorld',
@@ -86,15 +86,14 @@ export class AppComponent {
 
     const allContainers: Array<ContainerModel> = [container1];
 
-    const componentCode: Array<ComponentCode> = allComponents.map(component => this.componentCreationService.createComponentCode(component, defaultApplicationSettings));
-    const containerCode: Array<ComponentCode> = allContainers.map(container => this.containerCreationService.createContainerCode(container, defaultApplicationSettings));
+    const componentCode: Array<ComponentCode> = allComponents.map(component => this.componentCreationService.createComponentCode(component, this.userSettings));
+    const containerCode: Array<ComponentCode> = allContainers.map(container => this.containerCreationService.createContainerCode(container, this.userSettings));
 
     const moduleCode: ModuleCode = {
-      containers: [containerCode],
-      components: [componentCode]
+      containers: containerCode,
+      components: componentCode
     };
 
     console.log(moduleCode);
-
   }
 }

@@ -25,7 +25,7 @@ export class ContainerCreationService {
     // console.log(`Html for container was: \n${htmlAsString}`);
 
     const containerCode: ComponentCode = {
-      typescript: typescriptAsString,
+      ts: typescriptAsString,
       html: htmlAsString,
       css: ''
     };

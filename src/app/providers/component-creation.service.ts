@@ -25,7 +25,7 @@ export class ComponentCreationService {
     // console.log(`Html for component was: \n${htmlAsString}`);
 
     const componentCode: ComponentCode = {
-      typescript: typescriptAsString,
+      ts: typescriptAsString,
       html: htmlAsString,
       css: ''
     };

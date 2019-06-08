@@ -1,5 +1,5 @@
 export interface ComponentCode {
-    typescript: string;
+    ts: string;
     html: string;
     css: string;
 }

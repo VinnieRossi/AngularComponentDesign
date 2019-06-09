@@ -106,8 +106,14 @@
 
       <div class="container-grid-box">
         <h5 class="text-info">{{container.name}}</h5>
-        <button class="btn btn-primary container-add-presenter-button" (click)="createPresenter(container)">Add
-          Presenter</button>
+
+        <div class="container-add-presenter-button">
+          <button class="btn btn-outline-secondary" style="margin-right: 5px" (click)="getContainerCode(container)">Get
+            Container
+            code</button>
+          <button class="btn btn-primary" (click)="createPresenter(container)">Add
+            Presenter</button>
+        </div>
       </div>
 
       <!-- Child Presenters of Container -->
@@ -157,7 +163,7 @@
 
         </div>
 
-        <!-- Add Event Emitter -->
+        <!-- Display/Add Event Emitter -->
         <div>
 
           <button *ngIf="!isCreatingEvent" [disabled]="isCreatingInput" (click)="showCreateEventEmitter()"
@@ -198,6 +204,11 @@
               class="btn btn-outline-danger btn-xs">&times;</button>
           </div>
         </div>
+
+        <div>
+          <button>Get Presenter Code</button>
+        </div>
+
       </div>
 
     </div>

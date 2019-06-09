@@ -15,8 +15,6 @@
 }
 
 .container-add-presenter-button {
-    height: 75%;
-    width: 25%; 
     justify-self: end;
     align-self: end;
  }

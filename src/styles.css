@@ -52,3 +52,17 @@ body {
     line-height  : .5;
     border-radius : .2rem;
 }
+
+.purple-secondary {
+    background-color: #aa66cc;
+    border-color: #aa66cc;
+}
+
+.purple-secondary:hover {
+    background-color: #9933CC;
+    border-color: #9933CC;
+}
+
+.text-purple {
+    color: #aa66cc;
+}

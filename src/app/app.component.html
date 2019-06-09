@@ -41,7 +41,8 @@
 
     <!-- Buttons for adding containers and components -->
     <div class="form-group">
-      <button class="btn btn-info" style="margin-right: 5px;" (click)="createContainer()">Add Container</button>
+      <button class="btn btn-info" style="margin-right: 5px;" (click)="createContainer()">Add
+        Container</button>
       <!-- <button class="btn btn-primary" [ngClass]="{ 'btn-light': containers.length === 0 }"
         [disabled]="containers.length === 0" (click)="createPresenter()">Add
         Component</button> -->
@@ -52,7 +53,7 @@
 
   </section>
 
-  <!-- Displays all containers and nested components -->
+  <!-- Displays all containers and nested components in list layout -->
   <!--  <section *ngIf="this.containers.length"> -->
   <section *ngIf="false">
     <h3>Containers</h3>
@@ -99,7 +100,7 @@
     </ul>
   </section>
 
-  <!-- Test -->
+  <!-- Displays all containers and nested components in grid layout -->
   <section *ngIf="this.containers.length">
     <div *ngFor="let container of containers" class="container-grid" [style.width.%]="100 / this.containers.length">
 
@@ -109,13 +110,15 @@
           Presenter</button>
       </div>
 
+      <!-- Child Presenters of Container -->
       <div *ngFor="let presenter of container.components; index as i" [ngClass]="getClassForPresenter(i)">
         <span style="font-size: 1rem;">{{presenter.name}}</span>
 
         <!-- Display/Add Input Property -->
         <div>
 
-          <button *ngIf="!isCreatingInput" (click)="showCreateInputProperty(presenter)" class="btn btn-success btn-xs">+
+          <button *ngIf="!isCreatingInput" [disabled]="isCreatingEvent" (click)="showCreateInputProperty()"
+            class="btn btn-success btn-xs">+
             Add Input Property</button>
 
           <!-- Creating a new input property -->
@@ -156,12 +159,45 @@
 
         <!-- Add Event Emitter -->
         <div>
-          <button class="btn btn-success btn-xs">+ Add Event Emitter</button>
-        </div>
 
-        <!-- <div>
-            <button class="btn btn-light btn-xs">View Details</button>
-          </div> -->
+          <button *ngIf="!isCreatingEvent" [disabled]="isCreatingInput" (click)="showCreateEventEmitter()"
+            class="btn btn-success btn-xs">+ Add Event
+            Emitter</button>
+
+          <!-- Creating a new Event Emitter -->
+          <div *ngIf="isCreatingEvent">
+
+            <!-- Event Emitter Name and Type-->
+            <div class="input-group input-group-sm">
+              <input type="text" name="inputName" class="form-control" autofocus placeholder="Emitter name (eg. close)"
+                [(ngModel)]="newEventEmitter.name">
+              <div class="input-group-append">
+                <div class="row">
+                  <div class="col">
+                    <div ngbDropdown class="d-inline-block">
+                      <button class="btn btn-outline-secondary btn-sm" style="border-radius: 0px" name="inputType"
+                        id="dropdownBasic1" ngbDropdownToggle>{{newEventEmitter.type}}</button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem *ngFor="let type of supportedTypes"
+                          (click)="setEmitterType(type)">{{type}}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-outline-success btn-xs" (click)="createEventEmitterForPresenter(presenter)">+
+                  Add</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- List of all Event Emitters -->
+          <div *ngFor="let event of presenter.eventEmitters">
+            <small style="padding-right: 5px;" class="text-secondary">@Output() {{event.name}}:
+              EventEmitter&lt;{{event.type}}&gt;</small>
+            <button style="border: none;" (click)="removeEventEmitterFromPresenter(presenter, event)"
+              class="btn btn-outline-danger btn-xs">&times;</button>
+          </div>
+        </div>
       </div>
 
     </div>

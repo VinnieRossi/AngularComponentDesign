@@ -29,9 +29,13 @@ export class CreateContainerModalComponent implements OnInit {
 
   handleCreateContainer(): void {
 
-    const modelCopy: ContainerModel = cloneDeep(this.containerModel);
+    if (this.containerModel.name) {
 
-    this.activeModal.close(modelCopy);
+      const modelCopy: ContainerModel = cloneDeep(this.containerModel);
+
+      this.activeModal.close(modelCopy);
+    }
+
   }
 
 }

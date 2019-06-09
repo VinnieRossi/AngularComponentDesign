@@ -1,5 +1,5 @@
 import { ComponentCreationService } from './providers/component-creation.service';
-import { ComponentModel, PropertyModel, SupportedTypescriptTypes } from './models/component.model';
+import { ComponentModel, PropertyModel, SupportedTypescriptTypes, EventEmitterModel } from './models/component.model';
 import { Component } from '@angular/core';
 import { ApplicationSettings } from './models/application-settings.model';
 import { ContainerCreationService } from './providers/container-creation.service';
@@ -40,8 +40,15 @@ export class AppComponent {
   };
 
   isCreatingInput: boolean = false;
+  isCreatingEvent: boolean = false;
 
   newInputProperty: PropertyModel = {
+    id: uuidv1(),
+    name: '',
+    type: SupportedTypescriptTypes.String
+  };
+
+  newEventEmitter: EventEmitterModel = {
     id: uuidv1(),
     name: '',
     type: SupportedTypescriptTypes.String
@@ -74,6 +81,10 @@ export class AppComponent {
 
   }
 
+  showCreateEventEmitter(): void {
+    this.isCreatingEvent = true;
+  }
+
   createInputPropertyForPresenter(presenter: ComponentModel): void {
 
     presenter.inputProperties = [...presenter.inputProperties, this.newInputProperty];
@@ -88,14 +99,39 @@ export class AppComponent {
 
   }
 
+  createEventEmitterForPresenter(presenter: ComponentModel): void {
+
+    presenter.eventEmitters = [...presenter.inputProperties, this.newEventEmitter];
+
+    this.newEventEmitter = {
+      id: uuidv1(),
+      name: '',
+      type: SupportedTypescriptTypes.String
+    };
+
+    this.isCreatingEvent = false;
+
+  }
+
   setPropertyType(type: SupportedTypescriptTypes): void {
 
     this.newInputProperty.type = type;
   }
 
+  setEmitterType(type: SupportedTypescriptTypes): void {
+
+    this.newEventEmitter.type = type;
+  }
+
   removeInputPropertyFromPresenter(presenter: ComponentModel, prop: PropertyModel): void {
 
-    presenter.inputProperties = presenter.inputProperties.filter(props => props.id !== prop.id);
+    presenter.inputProperties = presenter.inputProperties.filter(ip => ip.id !== prop.id);
+
+  }
+
+  removeEventEmitterFromPresenter(presenter: ComponentModel, event: EventEmitterModel): void {
+
+    presenter.eventEmitters = presenter.eventEmitters.filter(ev => ev.id !== event.id);
 
   }
 
@@ -166,7 +202,7 @@ export class AppComponent {
 
   getClassForPresenter(presenterIndex: number): any {
 
-    const classArray: Array<string> = ['text-primary', 'presenter-grid-box'];
+    const classArray: Array<string> = ['presenter-grid-box', 'text-primary'];
 
     switch (presenterIndex) {
       case 0: {

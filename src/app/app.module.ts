@@ -5,15 +5,19 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CreateContainerModalComponent } from './create-container-modal/create-container-modal.component';
-import { EditContainerModalComponent } from './edit-container-modal/edit-container-modal.component';
+import { CreateContainerModalComponent } from './modals/create-container-modal/create-container-modal.component';
+import { EditContainerModalComponent } from './modals/edit-container-modal/edit-container-modal.component';
+import { CreateComponentModalComponent } from './modals/create-component-modal/create-component-modal.component';
+import { EditComponentModalComponent } from './modals/edit-component-modal/edit-component-modal.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateContainerModalComponent,
-    EditContainerModalComponent
+    EditContainerModalComponent,
+    CreateComponentModalComponent,
+    EditComponentModalComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,9 @@ import { EditContainerModalComponent } from './edit-container-modal/edit-contain
   providers: [],
   entryComponents: [
     CreateContainerModalComponent,
-    EditContainerModalComponent
+    EditContainerModalComponent,
+    CreateComponentModalComponent,
+    EditComponentModalComponent
   ],
   bootstrap: [AppComponent]
 })

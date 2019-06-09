@@ -8,26 +8,27 @@
     <section style="width: 30%;">
       <div class="form-group">
         <label for="">Indentation:</label>
-        <input type="text" name="indentAmount" class="form-control" placeholder="2"
+        <input type="text" name="indentAmount" class="form-control" placeholder="eg. 2"
           [(ngModel)]="userSettings.indentAmount">
       </div>
 
       <div class="form-group">
         <label for="">Application prefix:</label>
-        <input type="text" name="applicationPrefix" class="form-control" placeholder="app"
+        <input type="text" name="applicationPrefix" class="form-control" placeholder="eg. app"
           [(ngModel)]="userSettings.applicationPrefix">
       </div>
 
       <div class="form-group">
         <label for="">Application Styling:</label>
-        <input type="text" name="applicationStyling" class="form-control" placeholder="css"
+        <input type="text" name="applicationStyling" class="form-control" placeholder="eg. css"
           [(ngModel)]="userSettings.applicationStyling">
       </div>
     </section>
 
     <div class="form-group">
-      <button class="btn btn-light" style="margin-right: 5px;" (click)="createContainer()">Add Container</button>
-      <button class="btn btn-light" [disabled]="containers.length === 0" (click)="createComponent()">Add
+      <button class="btn btn-info" style="margin-right: 5px;" (click)="createContainer()">Add Container</button>
+      <button class="btn btn-primary" [ngClass]="{ 'btn-light': containers.length === 0 }"
+        [disabled]="containers.length === 0" (click)="createComponent()">Add
         Component</button>
       <button *ngIf="this.containers.length && this.components.length" (click)="generateModuleCode()"
         class="btn btn-success" style="float: right;" title="Generate code for all containers and all components">Get

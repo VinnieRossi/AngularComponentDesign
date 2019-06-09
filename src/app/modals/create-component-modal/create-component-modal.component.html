@@ -1,23 +1,27 @@
 <section style="margin: 10px;">
   <section>
-    <!-- Modal header -->
+
+    <!-- Component Name -->
     <div class="form-group">
-      <label for="applicationPrefix">Component name:</label>
-      <input type="text" name="applicationPrefix" class="form-control" placeholder="hello-world"
+      <label for="componentName">Component name:</label>
+      <input type="text" name="componentName" class="form-control" placeholder="eg. hello-world"
         [(ngModel)]="componentModel.name">
     </div>
 
+    <!-- Input and Event Emitter creation -->
     <div class="row">
       <!-- Input Property column of modal form (left) -->
       <div class="col">
         <section>
 
+          <!-- Input Property Name -->
           <div class="form-group">
             <label for="inputName">Input property name: </label>
-            <input type="text" name="inputName" class="form-control" placeholder="isVisible"
+            <input type="text" name="inputName" class="form-control" placeholder="eg. isVisible"
               [(ngModel)]="newInput.name">
           </div>
 
+          <!-- Input Property Type -->
           <div class="form-group">
             <label for="inputType">Input property Type: </label>
             <!-- Dropdown component -->
@@ -34,21 +38,26 @@
               </div>
             </div>
           </div>
+          <!-- Input Property Button -->
           <div class="form-group">
             <button class="btn btn-light" (click)="createInputProperty()">Add Input property</button>
           </div>
 
         </section>
       </div>
+
       <!-- Event Emitter column of modal form (right) -->
       <div class="col">
         <section>
 
+          <!-- Event Emitter Name -->
           <div class="form-group">
             <label for="emitName">Event Emitter Name: </label>
-            <input type="text" class="form-control" name="emitName" placeholder="close" [(ngModel)]="newEmitter.name">
+            <input type="text" class="form-control" name="emitName" placeholder="eg. close"
+              [(ngModel)]="newEmitter.name">
           </div>
 
+          <!-- Event Emitter Property Type -->
           <div class="form-group">
             <label for="">Event Emitter Type: </label>
             <!-- Dropdown component -->
@@ -66,14 +75,19 @@
             </div>
           </div>
 
+          <!-- Event Emitter Button -->
           <div class="form-group"> <button class="btn btn-light" (click)="createEventEmitter()">Add Event
-              Emitter</button></div>
+              Emitter</button>
+          </div>
+
         </section>
       </div>
 
     </div>
+
   </section>
 
+  <!-- TODO: Display inputs and emitters on create/edit modal -->
   <!-- <section>
     <span>Input Properties:</span>
     <div *ngFor="let input of componentModel.inputProperties">
@@ -84,8 +98,10 @@
       <span>{{event.name}} | {{event.type}}</span>
     </div>
   </section> -->
+
+  <!-- Parent container selection -->
   <section>
-    <label for="applicationPrefix">Parent Container:</label>
+    <label for="parentContainer">Parent Container:</label>
     <div class="row">
       <div class="col">
         <div ngbDropdown class="d-inline-block">
@@ -102,7 +118,8 @@
 
 </section>
 
+<!-- Create/Close buttons -->
 <div class="form-group" style="margin-top: 20px; background-color: #f8f9fa; margin-bottom: 0px; padding: 10px;">
-  <button class="btn btn-light" (click)="handleCloseModal()">Close :(</button>
-  <button class="btn btn-primary" style="float: right;" (click)="handleCreateComponent()">Create!</button>
+  <button class="btn btn-light" (click)="handleCloseModal()">Close</button>
+  <button class="btn btn-primary" style="float: right;" (click)="handleCreateComponent()">Create</button>
 </div>

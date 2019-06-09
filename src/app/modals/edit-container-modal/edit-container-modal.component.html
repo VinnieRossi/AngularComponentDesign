@@ -1,11 +1,19 @@
 <section>
-  <label for="">Container name: </label>
-  <input type="text" [(ngModel)]="containerModel.name">
+  <!-- Container name -->
+  <section style="margin: 10px;">
+    <div class="form-group">
+      <label for="containerName">Container name:</label>
+      <input type="text" name="containerName" class="form-control" placeholder="eg. HelloWorldContainer"
+        [(ngModel)]="containerModel.name">
+    </div>
+
+  </section>
+
+  <!-- Buttons to update/close -->
+  <section>
+    <div class="form-group" style="margin-top: 20px; background-color: #f8f9fa; margin-bottom: 0px; padding: 10px;">
+      <button class="btn btn-light" (click)="handleCloseModal()">Close</button>
+      <button class="btn btn-primary" style="float: right;" (click)="handleUpdateContainer()">Update</button>
+    </div>
+  </section>
 </section>
-
-<section>
-
-</section>
-
-<button (click)="handleEditContainer()">Save!</button>
-<button (click)="handleCloseModal()">Close :(</button>

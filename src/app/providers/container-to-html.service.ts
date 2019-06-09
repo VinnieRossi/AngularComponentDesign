@@ -19,7 +19,7 @@ export class ContainerToHtmlService {
       .map(component => this.createHtmlForComponent(component, appSettings));
 
     const containerAsHtmlString: string = (
-      `<p>${containerNameKebabCase} works! </p>\n
+      `<p>${containerNameKebabCase} works!</p>\n
 ${componentAsHtmlString.join('\n\n')}
     `);
 

@@ -20,7 +20,7 @@ export class EditContainerModalComponent implements OnInit {
     this.activeModal.close();
   }
 
-  handleEditContainer(): void {
+  handleUpdateContainer(): void {
     this.activeModal.close(this.containerModel);
   }
 

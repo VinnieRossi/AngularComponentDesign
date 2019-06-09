@@ -1,0 +1,44 @@
+.container-grid {
+    display: inline-grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+
+.first-presenter {
+    grid-row: 3;
+    grid-column: 1;
+}
+
+.second-presenter {
+    grid-row: 3;
+    grid-column: 2;
+}
+
+.third-presenter {
+    grid-row: 3;
+    grid-column: 3;
+}
+
+.fourth-presenter {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.fifth-presenter {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.sixth-presenter {
+    grid-row: 1;
+    grid-column: 3;
+}
+
+.seventh-presenter {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.eighth-presenter {
+    grid-row: 2;
+    grid-column: 3;
+}

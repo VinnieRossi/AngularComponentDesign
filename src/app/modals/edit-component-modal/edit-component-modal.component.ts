@@ -37,4 +37,8 @@ export class EditComponentModalComponent implements OnInit {
 
   handleUpdateComponent(): void { }
 
+  handleCloseModal(): void {
+    this.activeModal.close();
+  }
+
 }

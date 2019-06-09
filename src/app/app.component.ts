@@ -112,6 +112,8 @@ export class AppComponent {
 
   getContainerCode(container: ContainerModel): void {
 
+    // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file
+
     const containerCode: ComponentCode = this.containerCreationService.createContainerCode(container, this.userSettings);
 
     console.log(containerCode);
@@ -119,9 +121,53 @@ export class AppComponent {
 
   getComponentCode(component: ComponentModel): void {
 
+    // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file
+
     const componentCode: ComponentCode = this.componentCreationService.createComponentCode(component, this.userSettings);
 
     console.log(componentCode);
+  }
+
+  getClassForPresenter(presenterIndex: number): any {
+
+    const classArray: Array<string> = ['text-primary'];
+
+    switch (presenterIndex) {
+      case 0: {
+        classArray.push('first-presenter');
+        break;
+      }
+      case 1: {
+        classArray.push('second-presenter');
+        break;
+      }
+      case 2: {
+        classArray.push('third-presenter');
+        break;
+      }
+      case 3: {
+        classArray.push('fourth-presenter');
+        break;
+      }
+      case 4: {
+        classArray.push('fifth-presenter');
+        break;
+      }
+      case 5: {
+        classArray.push('sixth-presenter');
+        break;
+      }
+      case 6: {
+        classArray.push('seventh-presenter');
+        break;
+      }
+      case 7: {
+        classArray.push('eighth-presenter');
+        break;
+      }
+    }
+
+    return classArray;
   }
 
   generateModuleCode(): void {

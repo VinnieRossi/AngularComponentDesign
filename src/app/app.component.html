@@ -1,59 +1,91 @@
-<h2>Application Settings</h2>
-
-<section>
+<!-- style="height: 50vh; overflow-y: auto"  -->
+<div class="scrollbar scrollbar-near-moon" style="padding-right: .5rem;">
+  <h2>Application Settings</h2>
+  <!-- Form containing app settings and container/component buttons -->
   <section>
-    <div class="form-group">
-      <label for="">Indentation:</label>
-      <input type="text" name="indentAmount" class="form-control" placeholder="2"
-        [(ngModel)]="userSettings.indentAmount">
-    </div>
+
+    <!-- App settings at the top of the page -->
+    <section>
+      <div class="form-group">
+        <label for="">Indentation:</label>
+        <input type="text" name="indentAmount" class="form-control" placeholder="2"
+          [(ngModel)]="userSettings.indentAmount">
+      </div>
+
+      <div class="form-group">
+        <label for="">Application prefix:</label>
+        <input type="text" name="applicationPrefix" class="form-control" placeholder="app"
+          [(ngModel)]="userSettings.applicationPrefix">
+      </div>
+
+      <div class="form-group">
+        <label for="">Application Styling:</label>
+        <input type="text" name="applicationStyling" class="form-control" placeholder="css"
+          [(ngModel)]="userSettings.applicationStyling">
+      </div>
+    </section>
 
     <div class="form-group">
-      <label for="">Application prefix:</label>
-      <input type="text" name="applicationPrefix" class="form-control" placeholder="app"
-        [(ngModel)]="userSettings.applicationPrefix">
+      <button class="btn btn-light" style="margin-right: 5px;" (click)="createContainer()">Add Container</button>
+      <button class="btn btn-light" [disabled]="containers.length === 0" (click)="createComponent()">Add
+        Component</button>
+      <button *ngIf="this.containers.length && this.components.length" (click)="generateModuleCode()"
+        class="btn btn-success" style="float: right;" title="Generate code for all containers and all components">Get
+        ALL Code</button>
     </div>
-    <div class="form-group">
-      <label for="">Application Styling:</label>
-      <input type="text" name="applicationStyling" class="form-control" placeholder="css"
-        [(ngModel)]="userSettings.applicationStyling">
-    </div>
+
   </section>
 
+  <!-- Displays all containers and nested components -->
   <section>
-    <span>Containers</span>
-    <div class="list-group">
-      <a *ngFor="let container of containers" href="#" (click)="editContainer(container)"
-        class="list-group-item list-group-item-action" title="Edit Container">{{container.name}}</a>
-    </div>
+    <section *ngIf="this.containers.length">
+      <h3>Containers</h3>
+      <ul class="list-group">
+        <li *ngFor="let container of containers" href="#" class="list-group-item" title="Edit Container">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1 text-info">{{container.name}}</h5>
+          </div>
+
+          <!-- List of components within the parent container -->
+          <section *ngIf="container.components.length">
+            <h5>Components</h5>
+            <ul class="list-group">
+              <li *ngFor="let component of container.components" href="#" class="list-group-item"
+                title="Edit Component">
+
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1 text-primary">{{component.name}}</h5>
+                </div>
+
+                <p class="mb-1">Input Properties</p>
+                <small *ngFor="let input of component.inputProperties"><span>@Input() {{input.name}}:
+                    {{input.type}}</span></small>
+                <p class="mb-1" style="margin-top: .25rem;">Event Emitters</p>
+                <small *ngFor="let event of component.eventEmitters"><span>@Output() {{event.name}}:
+                    EventEmitter&lt;{{event.type}}&gt;</span></small>
+                <div class="clearfix" style="margin-top: 1rem;">
+                  <button (click)="editComponent(component)" class="btn btn-light" style="float: left;">Edit
+                    Component</button>
+                  <button (click)="getComponentCode(component)" class="btn btn-primary" style="float: right;"
+                    title="Generate code for this component">Get code for
+                    Component</button>
+                </div>
+              </li>
+            </ul>
+
+          </section>
+
+          <div class="clearfix" style="margin-top: 1rem;">
+            <button (click)="editContainer(container)" class="btn btn-light" style="float: left;">Edit
+              Container</button>
+            <button (click)="getContainerCode(container)" class="btn btn-info" style="float: right;"
+              title="Generate code for this container">Get
+              code for Container</button>
+          </div>
+        </li>
+      </ul>
+    </section>
   </section>
-
-  <section>
-    <span>Components</span>
-    <div class="list-group">
-      <a *ngFor="let component of components" href="#" (click)="editComponent(component)"
-        class="list-group-item list-group-item-action" title="Edit Component">
-
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1"> {{component.name}}</h5>
-        </div>
-
-        <p class="mb-1">Input Properties</p>
-        <small *ngFor="let input of component.inputProperties"><span>@Input() {{input.name}}:
-            {{input.type}}</span></small>
-
-        <p class="mb-2">Event Emitters</p>
-        <small *ngFor="let event of component.eventEmitters"><span>@Output() {{event.name}}:
-            EventEmitter&lt;{{event.type}}&gt;</span></small>
-
-      </a>
-    </div>
-  </section>
-
-  <button class="btn btn-light" style="margin-right: 5px;" (click)="createContainer()">Add Container</button>
-  <button class="btn btn-light" style="margin-right: 5px;" (click)="createComponent()">Add Component</button>
-  <button class="btn btn-primary" (click)="generateModuleCode()">Generate Code</button>
-
-</section>
+</div>
 
 <router-outlet></router-outlet>

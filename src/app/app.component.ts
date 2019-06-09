@@ -55,9 +55,20 @@ export class AppComponent {
 
     const modalRef: NgbModalRef = this.modalService.open(CreateComponentModalComponent, this.modalOptions);
 
+    const containerListRef: Array<ContainerModel> = cloneDeep(this.containers);
+    modalRef.componentInstance.containers = containerListRef;
+
     modalRef.result.then(result => {
       if (result) {
-        this.components = [...this.components, result];
+        const parentContainer: ContainerModel = this.containers.find(container => container.id === result.parentContainer.id);
+
+        if (parentContainer) {
+          parentContainer.components = [...parentContainer.components, result];
+
+          this.components = [...this.components, result];
+        } else {
+          // Error when linking component to parent container
+        }
       }
     });
   }
@@ -65,6 +76,7 @@ export class AppComponent {
   editContainer(container: ContainerModel): void {
 
     const modalRef: NgbModalRef = this.modalService.open(EditContainerModalComponent, this.modalOptions);
+
     const containerRef: ContainerModel = cloneDeep(container);
     modalRef.componentInstance.containerModel = containerRef;
 
@@ -78,8 +90,12 @@ export class AppComponent {
   editComponent(component: ContainerModel): void {
 
     const modalRef: NgbModalRef = this.modalService.open(EditComponentModalComponent, this.modalOptions);
+
     const componentRef: ContainerModel = cloneDeep(component);
+    const containerListRef: Array<ContainerModel> = cloneDeep(this.containers);
+
     modalRef.componentInstance.componentModel = componentRef;
+    modalRef.componentInstance.containers = containerListRef;
 
     modalRef.result.then(result => {
       if (result) {
@@ -88,10 +104,33 @@ export class AppComponent {
     });
   }
 
+  getContainerCode(container: ContainerModel): void {
+
+    const containerCode: ComponentCode = this.containerCreationService.createContainerCode(container, this.userSettings);
+
+    console.log(containerCode);
+  }
+
+  getComponentCode(component: ComponentModel): void {
+
+    const componentCode: ComponentCode = this.componentCreationService.createComponentCode(component, this.userSettings);
+
+    console.log(componentCode);
+  }
+
   generateModuleCode(): void {
 
+    /*
+    const container1: ContainerModel = {
+      id: '1',
+      name: 'HelloWorldContainer',
+      components: []
+    };
+
     const component1: ComponentModel = {
+      id: '1',
       name: 'HelloWorld',
+      parentContainer: container1,
       inputProperties: [
         //TODO: Have option to generate input with separate name (eg @Input('account-id') id: string;)
         {
@@ -116,7 +155,9 @@ export class AppComponent {
     };
 
     const component2: ComponentModel = {
+      id: '2',
       name: 'GoodbyeWorld',
+      parentContainer: container1,
       inputProperties: [
         //TODO: Have option to generate input with separate name (eg @Input('account-id') id: string;)
         {
@@ -142,16 +183,13 @@ export class AppComponent {
 
     const allComponents: Array<ComponentModel> = [component1, component2];
 
-    const container1: ContainerModel = {
-      id: '1',
-      name: 'HelloWorldContainer',
-      components: allComponents
-    };
+    container1.components = allComponents;
 
     const allContainers: Array<ContainerModel> = [container1];
+    */
 
-    const componentCode: Array<ComponentCode> = allComponents.map(component => this.componentCreationService.createComponentCode(component, this.userSettings));
-    const containerCode: Array<ComponentCode> = allContainers.map(container => this.containerCreationService.createContainerCode(container, this.userSettings));
+    const componentCode: Array<ComponentCode> = this.components.map(component => this.componentCreationService.createComponentCode(component, this.userSettings));
+    const containerCode: Array<ComponentCode> = this.containers.map(container => this.containerCreationService.createContainerCode(container, this.userSettings));
 
     const moduleCode: ModuleCode = {
       containers: containerCode,

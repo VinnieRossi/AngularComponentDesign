@@ -1,6 +1,5 @@
-import { CreateComponentModalComponent } from './modals/create-component-modal/create-component-modal.component';
 import { ComponentCreationService } from './providers/component-creation.service';
-import { ComponentModel, SupportedTypescriptTypes } from './models/component.model';
+import { ComponentModel, PropertyModel, SupportedTypescriptTypes } from './models/component.model';
 import { Component } from '@angular/core';
 import { ApplicationSettings } from './models/application-settings.model';
 import { ContainerCreationService } from './providers/container-creation.service';
@@ -12,7 +11,8 @@ import { CreateContainerModalComponent } from './modals/create-container-modal/c
 import { EditContainerModalComponent } from './modals/edit-container-modal/edit-container-modal.component';
 import { cloneDeep } from 'lodash';
 import { EditComponentModalComponent } from './modals/edit-component-modal/edit-component-modal.component';
-import interact from 'interactjs';
+
+const uuidv1 = require('uuid/v1');
 
 @Component({
   selector: 'app-root',
@@ -20,6 +20,9 @@ import interact from 'interactjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  // So we can put type options in the dropdown
+  supportedTypes = Object.values(SupportedTypescriptTypes);
 
   userSettings: ApplicationSettings = {
     applicationPrefix: 'app',
@@ -34,6 +37,14 @@ export class AppComponent {
     backdrop: 'static',
     keyboard: false,
     size: 'lg'
+  };
+
+  isCreatingInput: boolean = false;
+
+  newInputProperty: PropertyModel = {
+    id: uuidv1(),
+    name: '',
+    type: SupportedTypescriptTypes.String
   };
 
   constructor(
@@ -57,26 +68,51 @@ export class AppComponent {
     });
   }
 
-  createComponent(): void {
+  showCreateInputProperty(): void {
 
-    const modalRef: NgbModalRef = this.modalService.open(CreateComponentModalComponent, this.modalOptions);
+    this.isCreatingInput = true;
 
-    const containerListRef: Array<ContainerModel> = cloneDeep(this.containers);
-    modalRef.componentInstance.containers = containerListRef;
+  }
 
-    modalRef.result.then(result => {
-      if (result) {
-        const parentContainer: ContainerModel = this.containers.find(container => container.id === result.parentContainer.id);
+  createInputPropertyForPresenter(presenter: ComponentModel): void {
 
-        if (parentContainer) {
-          parentContainer.components = [...parentContainer.components, result];
+    presenter.inputProperties = [...presenter.inputProperties, this.newInputProperty];
 
-          this.components = [...this.components, result];
-        } else {
-          // Error when linking component to parent container
-        }
-      }
-    });
+    this.newInputProperty = {
+      id: uuidv1(),
+      name: '',
+      type: SupportedTypescriptTypes.String
+    };
+
+    this.isCreatingInput = false;
+
+  }
+
+  setPropertyType(type: SupportedTypescriptTypes): void {
+
+    this.newInputProperty.type = type;
+  }
+
+  removeInputPropertyFromPresenter(presenter: ComponentModel, prop: PropertyModel): void {
+
+    presenter.inputProperties = presenter.inputProperties.filter(props => props.id !== prop.id);
+
+  }
+
+  createPresenter(container: ContainerModel): void {
+
+    const tempComponent: ComponentModel = {
+      id: uuidv1(),
+      name: `hello-world-${container.components.length + 1}`,
+      inputProperties: [],
+      eventEmitters: [],
+      parentContainer: container
+    };
+
+    container.components = [...container.components, tempComponent];
+
+    this.components = [...this.components, tempComponent];
+
   }
 
   editContainer(container: ContainerModel): void {
@@ -130,7 +166,7 @@ export class AppComponent {
 
   getClassForPresenter(presenterIndex: number): any {
 
-    const classArray: Array<string> = ['text-primary'];
+    const classArray: Array<string> = ['text-primary', 'presenter-grid-box'];
 
     switch (presenterIndex) {
       case 0: {

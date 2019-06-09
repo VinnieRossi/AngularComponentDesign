@@ -31,6 +31,7 @@ import { EditComponentModalComponent } from './modals/edit-component-modal/edit-
     EditContainerModalComponent,
     CreateComponentModalComponent,
     EditComponentModalComponent
+
   ],
   bootstrap: [AppComponent]
 })

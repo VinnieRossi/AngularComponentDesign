@@ -15,10 +15,8 @@ export class CreateComponentModalComponent implements OnInit {
   // So we can put type options in the dropdown
   supportedTypes = Object.values(SupportedTypescriptTypes);
 
-  // Being fed in from the modal parent
-  containers: Array<ContainerModel> = [];
-
-  selectedContainer: ContainerModel;
+  // Passed in
+  parentContainer: ContainerModel;
 
   componentModel: ComponentModel = {
     id: uuidv1(),
@@ -41,7 +39,6 @@ export class CreateComponentModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
-    this.selectedContainer = this.containers[0];
   }
 
   setSelectedPropertyType(event: SupportedTypescriptTypes): void {
@@ -52,9 +49,9 @@ export class CreateComponentModalComponent implements OnInit {
     this.newEmitter.type = event;
   }
 
-  setParentContainer(event: ContainerModel): void {
-    this.selectedContainer = event;
-  }
+  // setParentContainer(event: ContainerModel): void {
+  //   this.parentContainer = event;
+  // }
 
   createInputProperty(): void {
 
@@ -86,7 +83,7 @@ export class CreateComponentModalComponent implements OnInit {
 
   handleCreateComponent(): void {
 
-    this.componentModel.parentContainer = this.selectedContainer;
+    this.componentModel.parentContainer = this.parentContainer;
 
     const modelCopy: ComponentModel = cloneDeep(this.componentModel);
 

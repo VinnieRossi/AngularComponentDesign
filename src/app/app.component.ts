@@ -12,6 +12,7 @@ import { CreateContainerModalComponent } from './modals/create-container-modal/c
 import { EditContainerModalComponent } from './modals/edit-container-modal/edit-container-modal.component';
 import { cloneDeep } from 'lodash';
 import { EditComponentModalComponent } from './modals/edit-component-modal/edit-component-modal.component';
+import interact from 'interactjs';
 
 @Component({
   selector: 'app-root',
@@ -40,6 +41,10 @@ export class AppComponent {
     private containerCreationService: ContainerCreationService,
     private modalService: NgbModal
   ) { }
+
+  // interact('.draggable').draggable({
+
+  // });
 
   createContainer(): void {
 
@@ -131,4 +136,5 @@ export class AppComponent {
 
     console.log(moduleCode);
   }
+
 }

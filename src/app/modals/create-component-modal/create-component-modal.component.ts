@@ -2,6 +2,7 @@ import { ComponentModel, PropertyModel, SupportedTypescriptTypes, EventEmitterMo
 import { Component, OnInit } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ContainerModel } from 'src/app/models/container.model';
 const uuidv1 = require('uuid/v1');
 
 @Component({
@@ -14,11 +15,17 @@ export class CreateComponentModalComponent implements OnInit {
   // So we can put type options in the dropdown
   supportedTypes = Object.values(SupportedTypescriptTypes);
 
+  // Being fed in from the modal parent
+  containers: Array<ContainerModel> = [];
+
+  selectedContainer: ContainerModel;
+
   componentModel: ComponentModel = {
     id: uuidv1(),
     name: '',
     inputProperties: [],
-    eventEmitters: []
+    eventEmitters: [],
+    parentContainer: null
   };
 
   newInput: PropertyModel = {
@@ -34,6 +41,7 @@ export class CreateComponentModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
+    this.selectedContainer = this.containers[0];
   }
 
   setSelectedPropertyType(event: SupportedTypescriptTypes): void {
@@ -42,6 +50,10 @@ export class CreateComponentModalComponent implements OnInit {
 
   setSelectedEmitterType(event: SupportedTypescriptTypes): void {
     this.newEmitter.type = event;
+  }
+
+  setParentContainer(event: ContainerModel): void {
+    this.selectedContainer = event;
   }
 
   createInputProperty(): void {
@@ -74,9 +86,17 @@ export class CreateComponentModalComponent implements OnInit {
 
   handleCreateComponent(): void {
 
+    this.componentModel.parentContainer = this.selectedContainer;
+
     const modelCopy: ComponentModel = cloneDeep(this.componentModel);
 
-    this.activeModal.close(modelCopy);
+    if (modelCopy.id && modelCopy.name && modelCopy.parentContainer) {
+
+      this.activeModal.close(modelCopy);
+    } else {
+      // Error
+    }
+
   }
 
 }

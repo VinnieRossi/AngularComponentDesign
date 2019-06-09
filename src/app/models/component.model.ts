@@ -1,8 +1,10 @@
+import { ContainerModel } from 'src/app/models/container.model';
 export interface ComponentModel {
     id: string; // Unique identifier for edit
     name: string; // Name of component in pascal case, eg. "HelloWorld"
     inputProperties: Array<PropertyModel>; // List of input properties the component will possess
     eventEmitters: Array<EventEmitterModel>; // List of event emitters the component will possess
+    parentContainer: ContainerModel; // The container that this component belongs to
 }
 
 export interface PropertyModel {

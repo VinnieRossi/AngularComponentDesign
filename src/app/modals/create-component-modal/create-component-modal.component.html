@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">
-      <!-- Left column of modal form -->
+      <!-- Input Property column of modal form (left) -->
       <div class="col">
         <section>
 
@@ -34,11 +34,13 @@
               </div>
             </div>
           </div>
+          <div class="form-group">
+            <button class="btn btn-light" (click)="createInputProperty()">Add Input property</button>
+          </div>
 
-          <button class="btn btn-light" (click)="createInputProperty()">Add Input property</button>
         </section>
       </div>
-      <!-- Right column of modal form -->
+      <!-- Event Emitter column of modal form (right) -->
       <div class="col">
         <section>
 
@@ -64,7 +66,8 @@
             </div>
           </div>
 
-          <button class="btn btn-light" (click)="createEventEmitter()">Add Event Emitter</button>
+          <div class="form-group"> <button class="btn btn-light" (click)="createEventEmitter()">Add Event
+              Emitter</button></div>
         </section>
       </div>
 
@@ -81,6 +84,21 @@
       <span>{{event.name}} | {{event.type}}</span>
     </div>
   </section> -->
+  <section>
+    <label for="applicationPrefix">Parent Container:</label>
+    <div class="row">
+      <div class="col">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-primary" id="containerDropdown"
+            ngbDropdownToggle>{{selectedContainer?.name}}</button>
+          <div ngbDropdownMenu aria-labelledby="containerDropdown">
+            <button ngbDropdownItem *ngFor="let container of containers"
+              (click)="setParentContainer(container)">{{container.name}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 </section>
 

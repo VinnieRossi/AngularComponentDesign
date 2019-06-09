@@ -31,7 +31,8 @@ export class AppComponent {
 
   modalOptions: NgbModalOptions = {
     backdrop: 'static',
-    keyboard: false
+    keyboard: false,
+    size: 'lg'
   };
 
   constructor(
@@ -42,7 +43,7 @@ export class AppComponent {
 
   createContainer(): void {
 
-    const modalRef: NgbModalRef = this.modalService.open(CreateContainerModalComponent, this.modalOptions);
+    const modalRef: NgbModalRef = this.modalService.open(CreateContainerModalComponent, { ...this.modalOptions, size: 'sm' });
 
     modalRef.result.then(result => {
       if (result) {
@@ -75,7 +76,7 @@ export class AppComponent {
 
   editContainer(container: ContainerModel): void {
 
-    const modalRef: NgbModalRef = this.modalService.open(EditContainerModalComponent, this.modalOptions);
+    const modalRef: NgbModalRef = this.modalService.open(EditContainerModalComponent, { ...this.modalOptions, size: 'sm' });
 
     const containerRef: ContainerModel = cloneDeep(container);
     modalRef.componentInstance.containerModel = containerRef;
@@ -119,74 +120,6 @@ export class AppComponent {
   }
 
   generateModuleCode(): void {
-
-    /*
-    const container1: ContainerModel = {
-      id: '1',
-      name: 'HelloWorldContainer',
-      components: []
-    };
-
-    const component1: ComponentModel = {
-      id: '1',
-      name: 'HelloWorld',
-      parentContainer: container1,
-      inputProperties: [
-        //TODO: Have option to generate input with separate name (eg @Input('account-id') id: string;)
-        {
-          name: 'bankName',
-          type: SupportedTypescriptTypes.String
-        },
-        {
-          name: 'accountName',
-          type: SupportedTypescriptTypes.String
-        }
-      ],
-      eventEmitters: [
-        {
-          name: 'close',
-          type: SupportedTypescriptTypes.Any
-        },
-        {
-          name: 'edit',
-          type: SupportedTypescriptTypes.Any
-        }
-      ]
-    };
-
-    const component2: ComponentModel = {
-      id: '2',
-      name: 'GoodbyeWorld',
-      parentContainer: container1,
-      inputProperties: [
-        //TODO: Have option to generate input with separate name (eg @Input('account-id') id: string;)
-        {
-          name: 'charName',
-          type: SupportedTypescriptTypes.String
-        },
-        {
-          name: 'barName',
-          type: SupportedTypescriptTypes.String
-        }
-      ],
-      eventEmitters: [
-        {
-          name: 'banana',
-          type: SupportedTypescriptTypes.Any
-        },
-        {
-          name: 'apple',
-          type: SupportedTypescriptTypes.Any
-        }
-      ]
-    };
-
-    const allComponents: Array<ComponentModel> = [component1, component2];
-
-    container1.components = allComponents;
-
-    const allContainers: Array<ContainerModel> = [container1];
-    */
 
     const componentCode: Array<ComponentCode> = this.components.map(component => this.componentCreationService.createComponentCode(component, this.userSettings));
     const containerCode: Array<ComponentCode> = this.containers.map(container => this.containerCreationService.createContainerCode(container, this.userSettings));

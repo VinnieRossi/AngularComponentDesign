@@ -50,5 +50,16 @@
   </section>
 </section>
 
+<section>
+  <span>Input Properties:</span>
+  <div *ngFor="let input of componentModel.inputProperties">
+    <span>{{input.name}} | {{input.type}}</span>
+  </div>
+  <span>Event Emitters:</span>
+  <div *ngFor="let event of componentModel.eventEmitters">
+    <span>{{event.name}} | {{event.type}}</span>
+  </div>
+</section>
+
 <button (click)="handleCreateComponent()">Create!</button>
 <button (click)="handleCloseModal()">Close :(</button>

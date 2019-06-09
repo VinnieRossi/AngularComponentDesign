@@ -45,6 +45,9 @@ export class CreateComponentModalComponent implements OnInit {
   }
 
   createInputProperty(): void {
+
+    if (!(this.newInput.name && this.newInput.type)) { return; }
+
     this.componentModel.inputProperties = [...this.componentModel.inputProperties, this.newInput];
 
     this.newInput = {
@@ -54,6 +57,9 @@ export class CreateComponentModalComponent implements OnInit {
   }
 
   createEventEmitter(): void {
+
+    if (!(this.newEmitter.name && this.newEmitter.type)) { return; }
+
     this.componentModel.eventEmitters = [...this.componentModel.eventEmitters, this.newEmitter];
 
     this.newEmitter = {

@@ -1,65 +1,90 @@
-<section>
-  <label for="">Component name: </label>
-  <input type="text" [(ngModel)]="componentModel.name">
-</section>
-
-<section>
-
+<section style="margin: 10px;">
   <section>
-    <label for="">Input property name: </label>
-    <input type="text" [(ngModel)]="newInput.name">
-
-    <label for="">Input property Type: </label>
-
-    <!-- Dropdown component -->
-    <div class="row">
-      <div class="col">
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{newInput.type}}</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem *ngFor="let type of supportedTypes"
-              (click)="setSelectedPropertyType(type)">{{type}}</button>
-          </div>
-        </div>
-      </div>
+    <!-- Modal header -->
+    <div class="form-group">
+      <label for="applicationPrefix">Component name:</label>
+      <input type="text" name="applicationPrefix" class="form-control" placeholder="hello-world"
+        [(ngModel)]="componentModel.name">
     </div>
 
-    <button (click)="createInputProperty()">Add Input property</button>
-  </section>
-
-  <section>
-    <label for="">Event Emitter Name: </label>
-    <input type="text" [(ngModel)]="newEmitter.name">
-
-    <label for="">Event Emitter Type: </label>
-
-    <!-- Dropdown component -->
     <div class="row">
+      <!-- Left column of modal form -->
       <div class="col">
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{newEmitter.type}}</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem *ngFor="let type of supportedTypes"
-              (click)="setSelectedEmitterType(type)">{{type}}</button>
+        <section>
+
+          <div class="form-group">
+            <label for="inputName">Input property name: </label>
+            <input type="text" name="inputName" class="form-control" placeholder="isVisible"
+              [(ngModel)]="newInput.name">
           </div>
-        </div>
+
+          <div class="form-group">
+            <label for="inputType">Input property Type: </label>
+            <!-- Dropdown component -->
+            <div class="row">
+              <div class="col">
+                <div ngbDropdown class="d-inline-block">
+                  <button class="btn btn-outline-primary" name="inputType" id="dropdownBasic1"
+                    ngbDropdownToggle>{{newInput.type}}</button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem *ngFor="let type of supportedTypes"
+                      (click)="setSelectedPropertyType(type)">{{type}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-light" (click)="createInputProperty()">Add Input property</button>
+        </section>
       </div>
+      <!-- Right column of modal form -->
+      <div class="col">
+        <section>
+
+          <div class="form-group">
+            <label for="emitName">Event Emitter Name: </label>
+            <input type="text" class="form-control" name="emitName" placeholder="close" [(ngModel)]="newEmitter.name">
+          </div>
+
+          <div class="form-group">
+            <label for="">Event Emitter Type: </label>
+            <!-- Dropdown component -->
+            <div class="row">
+              <div class="col">
+                <div ngbDropdown class="d-inline-block">
+                  <button class="btn btn-outline-primary" id="dropdownBasic1"
+                    ngbDropdownToggle>{{newEmitter.type}}</button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem *ngFor="let type of supportedTypes"
+                      (click)="setSelectedEmitterType(type)">{{type}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-light" (click)="createEventEmitter()">Add Event Emitter</button>
+        </section>
+      </div>
+
     </div>
-
-    <button (click)="createEventEmitter()">Add Event Emitter</button>
   </section>
+
+  <!-- <section>
+    <span>Input Properties:</span>
+    <div *ngFor="let input of componentModel.inputProperties">
+      <span>{{input.name}} | {{input.type}}</span>
+    </div>
+    <span>Event Emitters:</span>
+    <div *ngFor="let event of componentModel.eventEmitters">
+      <span>{{event.name}} | {{event.type}}</span>
+    </div>
+  </section> -->
+
 </section>
 
-<section>
-  <span>Input Properties:</span>
-  <div *ngFor="let input of componentModel.inputProperties">
-    <span>{{input.name}} | {{input.type}}</span>
-  </div>
-  <span>Event Emitters:</span>
-  <div *ngFor="let event of componentModel.eventEmitters">
-    <span>{{event.name}} | {{event.type}}</span>
-  </div>
-</section>
-
-<button (click)="handleCreateComponent()">Create!</button>
-<button (click)="handleCloseModal()">Close :(</button>
+<div class="form-group" style="margin-top: 20px; background-color: #f8f9fa; margin-bottom: 0px; padding: 10px;">
+  <button class="btn btn-light" (click)="handleCloseModal()">Close :(</button>
+  <button class="btn btn-primary" style="float: right;" (click)="handleCreateComponent()">Create!</button>
+</div>

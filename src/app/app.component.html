@@ -1,32 +1,59 @@
 <h2>Application Settings</h2>
 
 <section>
-  <label for="">Indentation:</label>
-  <input type="text" placeholder="2" [(ngModel)]="userSettings.indentAmount">
+  <section>
+    <div class="form-group">
+      <label for="">Indentation:</label>
+      <input type="text" name="indentAmount" class="form-control" placeholder="2"
+        [(ngModel)]="userSettings.indentAmount">
+    </div>
 
-  <label for="">Application prefix:</label>
-  <input type="text" placeholder="app" [(ngModel)]="userSettings.applicationPrefix">
+    <div class="form-group">
+      <label for="">Application prefix:</label>
+      <input type="text" name="applicationPrefix" class="form-control" placeholder="app"
+        [(ngModel)]="userSettings.applicationPrefix">
+    </div>
+    <div class="form-group">
+      <label for="">Application Styling:</label>
+      <input type="text" name="applicationStyling" class="form-control" placeholder="css"
+        [(ngModel)]="userSettings.applicationStyling">
+    </div>
+  </section>
 
-  <label for="">Application Styling:</label>
-  <input type="text" placeholder="css" [(ngModel)]="userSettings.applicationStyling">
+  <section>
+    <span>Containers</span>
+    <div class="list-group">
+      <a *ngFor="let container of containers" href="#" (click)="editContainer(container)"
+        class="list-group-item list-group-item-action" title="Edit Container">{{container.name}}</a>
+    </div>
+  </section>
+
+  <section>
+    <span>Components</span>
+    <div class="list-group">
+      <a *ngFor="let component of components" href="#" (click)="editComponent(component)"
+        class="list-group-item list-group-item-action" title="Edit Component">
+
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1"> {{component.name}}</h5>
+        </div>
+
+        <p class="mb-1">Input Properties</p>
+        <small *ngFor="let input of component.inputProperties"><span>@Input() {{input.name}}:
+            {{input.type}}</span></small>
+
+        <p class="mb-2">Event Emitters</p>
+        <small *ngFor="let event of component.eventEmitters"><span>@Output() {{event.name}}:
+            EventEmitter&lt;{{event.type}}&gt;</span></small>
+
+      </a>
+    </div>
+  </section>
+
+  <button class="btn btn-light" style="margin-right: 5px;" (click)="createContainer()">Add Container</button>
+  <button class="btn btn-light" style="margin-right: 5px;" (click)="createComponent()">Add Component</button>
+  <button class="btn btn-primary" (click)="generateModuleCode()">Generate Code</button>
+
 </section>
-
-<section>
-  <div *ngFor="let container of containers">
-    {{container.name}}
-    <button (click)="editContainer(container)">Edit Container</button>
-  </div>
-</section>
-
-<section>
-  <div *ngFor="let component of components">
-    {{component.name}}
-    <button>Edit Component</button>
-  </div>
-</section>
-
-<button (click)="createContainer()">Add Container</button>
-<button (click)="createComponent()">Add Component</button>
-<button (click)="generateModuleCode()">Generate Code</button>
 
 <router-outlet></router-outlet>

@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    margin: 10px;
+}
+
+/* .btn-default {
+    border: 1px solid #007bff;
+}
+
+.btn-default:hover {
+    transition: background-color 2s ease-out;
+    transition: color .5s ease-out;
+    color: white;
+    background-color: #007bff;
+    
+} */
+

@@ -27,11 +27,13 @@ export class CreateComponentModalComponent implements OnInit {
   };
 
   newInput: PropertyModel = {
+    id: '',
     name: '',
     type: SupportedTypescriptTypes.String
   };
 
   newEmitter: EventEmitterModel = {
+    id: '',
     name: '',
     type: SupportedTypescriptTypes.String
   };
@@ -60,6 +62,7 @@ export class CreateComponentModalComponent implements OnInit {
     this.componentModel.inputProperties = [...this.componentModel.inputProperties, this.newInput];
 
     this.newInput = {
+      id: '',
       name: '',
       type: SupportedTypescriptTypes.String
     };
@@ -72,6 +75,7 @@ export class CreateComponentModalComponent implements OnInit {
     this.componentModel.eventEmitters = [...this.componentModel.eventEmitters, this.newEmitter];
 
     this.newEmitter = {
+      id: '',
       name: '',
       type: SupportedTypescriptTypes.String
     };

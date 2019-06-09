@@ -11,6 +11,7 @@ import { CreateContainerModalComponent } from './modals/create-container-modal/c
 import { EditContainerModalComponent } from './modals/edit-container-modal/edit-container-modal.component';
 import { cloneDeep } from 'lodash';
 import { EditComponentModalComponent } from './modals/edit-component-modal/edit-component-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 const uuidv1 = require('uuid/v1');
 
@@ -57,12 +58,9 @@ export class AppComponent {
   constructor(
     private componentCreationService: ComponentCreationService,
     private containerCreationService: ContainerCreationService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) { }
-
-  // interact('.draggable').draggable({
-
-  // });
 
   createContainer(): void {
 
@@ -71,6 +69,7 @@ export class AppComponent {
     modalRef.result.then(result => {
       if (result) {
         this.containers = [...this.containers, result];
+        this.toastr.success('Container added successfully', 'Success');
       }
     });
   }

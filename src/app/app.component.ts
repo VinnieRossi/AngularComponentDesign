@@ -1,3 +1,4 @@
+import { CreateComponentModalComponent } from './modals/create-component-modal/create-component-modal.component';
 import { ComponentCreationService } from './providers/component-creation.service';
 import { ComponentModel, SupportedTypescriptTypes } from './models/component.model';
 import { Component } from '@angular/core';
@@ -6,10 +7,11 @@ import { ContainerCreationService } from './providers/container-creation.service
 import { ContainerModel } from './models/container.model';
 import { ComponentCode } from './models/component-code.model';
 import { ModuleCode } from './models/module-code.model';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreateContainerModalComponent } from './create-container-modal/create-container-modal.component';
-import { EditContainerModalComponent } from './edit-container-modal/edit-container-modal.component';
+import { NgbModalRef, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { CreateContainerModalComponent } from './modals/create-container-modal/create-container-modal.component';
+import { EditContainerModalComponent } from './modals/edit-container-modal/edit-container-modal.component';
 import { cloneDeep } from 'lodash';
+import { EditComponentModalComponent } from './modals/edit-component-modal/edit-component-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +29,11 @@ export class AppComponent {
   containers: Array<ContainerModel> = [];
   components: Array<ComponentModel> = [];
 
+  modalOptions: NgbModalOptions = {
+    backdrop: 'static',
+    keyboard: false
+  };
+
   constructor(
     private componentCreationService: ComponentCreationService,
     private containerCreationService: ContainerCreationService,
@@ -35,35 +42,48 @@ export class AppComponent {
 
   createContainer(): void {
 
-    const modalRef: NgbModalRef = this.modalService.open(CreateContainerModalComponent);
+    const modalRef: NgbModalRef = this.modalService.open(CreateContainerModalComponent, this.modalOptions);
 
     modalRef.result.then(result => {
       if (result) {
-        this.containers.push(result);
+        this.containers = [...this.containers, result];
       }
     });
   }
 
   createComponent(): void {
 
-    const newComponent: ComponentModel = {
-      name: 'b',
-      inputProperties: [],
-      eventEmitters: []
-    };
+    const modalRef: NgbModalRef = this.modalService.open(CreateComponentModalComponent, this.modalOptions);
 
-    this.components.push(newComponent);
+    modalRef.result.then(result => {
+      if (result) {
+        this.components = [...this.components, result];
+      }
+    });
   }
 
   editContainer(container: ContainerModel): void {
 
-    const modalRef: NgbModalRef = this.modalService.open(EditContainerModalComponent);
+    const modalRef: NgbModalRef = this.modalService.open(EditContainerModalComponent, this.modalOptions);
     const containerRef: ContainerModel = cloneDeep(container);
     modalRef.componentInstance.containerModel = containerRef;
 
     modalRef.result.then(result => {
       if (result) {
         this.containers = [...this.containers.filter(items => items.id !== result.id), result];
+      }
+    });
+  }
+
+  editComponent(component: ContainerModel): void {
+
+    const modalRef: NgbModalRef = this.modalService.open(EditComponentModalComponent, this.modalOptions);
+    const componentRef: ContainerModel = cloneDeep(component);
+    modalRef.componentInstance.componentModel = componentRef;
+
+    modalRef.result.then(result => {
+      if (result) {
+        this.components = [...this.components.filter(items => items.id !== result.id), result];
       }
     });
   }

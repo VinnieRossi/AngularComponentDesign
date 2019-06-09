@@ -100,7 +100,7 @@ export class AppComponent {
 
   createEventEmitterForPresenter(presenter: ComponentModel): void {
 
-    presenter.eventEmitters = [...presenter.inputProperties, this.newEventEmitter];
+    presenter.eventEmitters = [...presenter.eventEmitters, this.newEventEmitter];
 
     this.newEventEmitter = {
       id: uuidv1(),

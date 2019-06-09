@@ -1,4 +1,4 @@
-import { ContainerModel } from './../models/container.model';
+import { ContainerModel } from '../../models/container.model';
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { cloneDeep } from 'lodash';

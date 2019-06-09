@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContainerModel } from '../models/container.model';
+import { ContainerModel } from '../../models/container.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

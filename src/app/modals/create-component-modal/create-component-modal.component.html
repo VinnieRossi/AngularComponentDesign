@@ -1,0 +1,54 @@
+<section>
+  <label for="">Component name: </label>
+  <input type="text" [(ngModel)]="componentModel.name">
+</section>
+
+<section>
+
+  <section>
+    <label for="">Input property name: </label>
+    <input type="text" [(ngModel)]="newInput.name">
+
+    <label for="">Input property Type: </label>
+
+    <!-- Dropdown component -->
+    <div class="row">
+      <div class="col">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{newInput.type}}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem *ngFor="let type of supportedTypes"
+              (click)="setSelectedPropertyType(type)">{{type}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="createInputProperty()">Add Input property</button>
+  </section>
+
+  <section>
+    <label for="">Event Emitter Name: </label>
+    <input type="text" [(ngModel)]="newEmitter.name">
+
+    <label for="">Event Emitter Type: </label>
+
+    <!-- Dropdown component -->
+    <div class="row">
+      <div class="col">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{newEmitter.type}}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem *ngFor="let type of supportedTypes"
+              (click)="setSelectedEmitterType(type)">{{type}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="createEventEmitter()">Add Event Emitter</button>
+  </section>
+</section>
+
+<button (click)="handleCreateComponent()">Create!</button>
+<button (click)="handleCloseModal()">Close :(</button>

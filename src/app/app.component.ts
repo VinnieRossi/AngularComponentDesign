@@ -183,14 +183,14 @@ export class AppComponent {
 
   getContainerCode(container: ContainerModel): void {
 
-    // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file
+    // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file?
 
     const containerCode: ComponentCode = this.containerCreationService.createContainerCode(container, this.userSettings);
 
     console.log(containerCode);
   }
 
-  getComponentCode(component: ComponentModel): void {
+  getPresenterCode(component: ComponentModel): void {
 
     // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file
 

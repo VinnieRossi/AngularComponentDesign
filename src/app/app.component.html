@@ -46,9 +46,9 @@
       <!-- <button class="btn btn-primary" [ngClass]="{ 'btn-light': containers.length === 0 }"
         [disabled]="containers.length === 0" (click)="createPresenter()">Add
         Component</button> -->
-      <button *ngIf="this.containers.length && this.components.length" (click)="generateModuleCode()"
+      <button [disabled]="!this.containers.length && !this.components.length" (click)="generateModuleCode()"
         class="btn btn-success" style="float: right;" title="Generate code for all containers and all components">Get
-        ALL Code</button>
+        all code </button>
     </div>
 
   </section>
@@ -102,17 +102,43 @@
 
   <!-- Displays all containers and nested components in grid layout -->
   <section *ngIf="this.containers.length">
-    <div *ngFor="let container of containers" class="container-grid" [style.width.%]="100 / this.containers.length">
+    <div *ngFor="let container of containers" class="container-grid">
 
       <div class="container-grid-box">
         <h5 class="text-info">{{container.name}}</h5>
 
+        <!-- Display presenter inputs on container -->
+        <div class="scrollbar scrollbar-near-moon property-container">
+          <div *ngFor="let presenter of container.components">
+            <div *ngFor="let input of presenter.inputProperties">
+              <small style="padding-right: 5px;" class="text-secondary">private {{input.name}}: {{input.type}};</small>
+              <button style="border: none;" (click)="removeInputPropertyFromPresenter(presenter, input)"
+                class="btn btn-outline-danger btn-xs">&times;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display event emitter handlers on container -->
+        <div class="scrollbar scrollbar-near-moon property-container">
+          <div *ngFor="let presenter of container.components">
+            <div *ngFor="let event of presenter.eventEmitters">
+              <small style="padding-right: 5px;" class="text-secondary">private
+                on{{event.name[0].toUpperCase() + event.name.substring(1)}}(event: {{event.type}}): void &#123;
+                &#125;</small>
+              <button style="border: none;" (click)="removeEventEmitterFromPresenter(presenter, event)"
+                class="btn btn-outline-danger btn-xs">&times;</button>
+            </div>
+          </div>
+
+        </div>
+
         <div class="container-add-presenter-button">
-          <button class="btn btn-outline-secondary" style="margin-right: 5px" (click)="getContainerCode(container)">Get
+          <button class="btn btn-sm btn-outline-secondary" style="margin-right: 5px"
+            (click)="getContainerCode(container)">Get
             Container
             code</button>
-          <button class="btn btn-primary" (click)="createPresenter(container)">Add
-            Presenter</button>
+          <button class="btn btn-sm btn-primary" (click)="createPresenter(container)"
+            [disabled]="container.components.length >= 3">Add Presenter</button>
         </div>
       </div>
 
@@ -155,10 +181,12 @@
           </div>
 
           <!-- List of all Input Properties -->
-          <div *ngFor="let input of presenter.inputProperties">
-            <small style="padding-right: 5px;" class="text-secondary">@Input() {{input.name}}: {{input.type}};</small>
-            <button style="border: none;" (click)="removeInputPropertyFromPresenter(presenter, input)"
-              class="btn btn-outline-danger btn-xs">&times;</button>
+          <div class="scrollbar scrollbar-near-moon property-container">
+            <div *ngFor="let input of presenter.inputProperties">
+              <small style="padding-right: 5px;" class="text-secondary">@Input() {{input.name}}: {{input.type}};</small>
+              <button style="border: none;" (click)="removeInputPropertyFromPresenter(presenter, input)"
+                class="btn btn-outline-danger btn-xs">&times;</button>
+            </div>
           </div>
 
         </div>
@@ -197,16 +225,22 @@
           </div>
 
           <!-- List of all Event Emitters -->
-          <div *ngFor="let event of presenter.eventEmitters">
-            <small style="padding-right: 5px;" class="text-secondary">@Output() {{event.name}}:
-              EventEmitter&lt;{{event.type}}&gt;</small>
-            <button style="border: none;" (click)="removeEventEmitterFromPresenter(presenter, event)"
-              class="btn btn-outline-danger btn-xs">&times;</button>
+          <div class="scrollbar scrollbar-near-moon property-container">
+            <div *ngFor="let event of presenter.eventEmitters">
+              <small style="padding-right: 5px;" class="text-secondary">@Output() {{event.name}}:
+                EventEmitter&lt;{{event.type}}&gt;</small>
+              <button style="border: none;" (click)="removeEventEmitterFromPresenter(presenter, event)"
+                class="btn btn-outline-danger btn-xs">&times;</button>
+            </div>
           </div>
+
         </div>
 
-        <div>
-          <button>Get Presenter Code</button>
+        <div class="container-add-presenter-button">
+          <button class="btn btn-outline-secondary btn-sm" style="margin-right: 5px"
+            (click)="getPresenterCode(presenter)">Get
+            Presenter
+            code</button>
         </div>
 
       </div>

@@ -42,6 +42,7 @@ export class AppComponent {
 
   isCreatingInput: boolean = false;
   isCreatingEvent: boolean = false;
+  isEditingPresenterName: boolean = false;
 
   newInputProperty: PropertyModel = {
     id: uuidv1(),
@@ -72,6 +73,14 @@ export class AppComponent {
         this.toastr.success('Container added successfully', 'Success');
       }
     });
+  }
+
+  enablePresenterNameChange(): void {
+    this.isEditingPresenterName = true;
+  }
+
+  disablePresenterNameChange(): void {
+    this.isEditingPresenterName = false;
   }
 
   showCreateInputProperty(): void {
@@ -138,7 +147,7 @@ export class AppComponent {
 
     const tempComponent: ComponentModel = {
       id: uuidv1(),
-      name: `hello-world-${container.components.length + 1}`,
+      name: `HelloWorld${container.components.length + 1}`,
       inputProperties: [],
       eventEmitters: [],
       parentContainer: container

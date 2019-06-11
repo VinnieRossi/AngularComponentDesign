@@ -21,8 +21,8 @@ export class ContainerCreationService {
     const typescriptAsString: string = this.containerToTsService.generateTypescriptForContainer(container, appSettings);
     const htmlAsString: string = this.containerToHtmlService.generateHtmlForContainer(container, appSettings);
 
-    // console.log(`Typescript for container was: \n${typescriptAsString}`);
-    // console.log(`Html for container was: \n${htmlAsString}`);
+    console.log(`Typescript for container was: \n${typescriptAsString}`);
+    console.log(`Html for container was: \n${htmlAsString}`);
 
     const containerCode: ComponentCode = {
       ts: typescriptAsString,

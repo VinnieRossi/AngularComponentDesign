@@ -21,8 +21,8 @@ export class ComponentCreationService {
     const typescriptAsString: string = this.componentToTsService.generateTypescriptForComponent(component, appSettings);
     const htmlAsString: string = this.componentToHtmlService.generateHtmlForComponent(component, appSettings);
 
-    // console.log(`Typescript for component was: \n${typescriptAsString}`);
-    // console.log(`Html for component was: \n${htmlAsString}`);
+    console.log(`Typescript for component was: \n${typescriptAsString}`);
+    console.log(`Html for component was: \n${htmlAsString}`);
 
     const componentCode: ComponentCode = {
       ts: typescriptAsString,

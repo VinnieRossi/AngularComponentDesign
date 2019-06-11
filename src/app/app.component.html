@@ -41,11 +41,9 @@
 
     <!-- Buttons for adding containers and components -->
     <div class="form-group">
-      <button class="btn btn-info" style="margin-right: 5px;" (click)="createContainer()">Add
+      <button class="btn btn-info" style="margin-right: 5px;" [disabled]="this.containers.length === 1"
+        (click)="createContainer()">Add
         Container</button>
-      <!-- <button class="btn btn-primary" [ngClass]="{ 'btn-light': containers.length === 0 }"
-        [disabled]="containers.length === 0" (click)="createPresenter()">Add
-        Component</button> -->
       <button [disabled]="!this.containers.length && !this.components.length" (click)="generateModuleCode()"
         class="btn btn-success" style="float: right;" title="Generate code for all containers and all components">Get
         all code </button>
@@ -53,57 +51,11 @@
 
   </section>
 
-  <!-- Displays all containers and nested components in list layout -->
-  <!--  <section *ngIf="this.containers.length"> -->
-  <section *ngIf="false">
-    <h3>Containers</h3>
-    <ul class="list-group">
-      <li *ngFor="let container of containers" class="list-group-item" title="Edit Container">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1 text-info">{{container.name}}</h5>
-        </div>
-
-        <!-- List of components within the parent container -->
-        <section *ngIf="container.components.length">
-          <h5>Components</h5>
-          <ul class="list-group">
-            <li *ngFor="let component of container.components" class="list-group-item" title="Edit Component">
-
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1 text-primary">{{component.name}}</h5>
-              </div>
-
-              <p class="mb-1">Input Properties</p>
-              <small *ngFor="let input of component.inputProperties"><span>@Input() {{input.name}}:
-                  {{input.type}}</span></small>
-              <p class="mb-1" style="margin-top: .25rem;">Event Emitters</p>
-              <small *ngFor="let event of component.eventEmitters"><span>@Output() {{event.name}}:
-                  EventEmitter&lt;{{event.type}}&gt;</span></small>
-              <div class="clearfix" style="margin-top: 1rem;">
-                <button (click)="editComponent(component)" class="btn btn-light" style="float: left;">Edit
-                  Component</button>
-                <button (click)="getComponentCode(component)" class="btn btn-primary" style="float: right;"
-                  title="Generate code for this component">Get component code!</button>
-              </div>
-            </li>
-          </ul>
-
-        </section>
-
-        <div class="clearfix" style="margin-top: 1rem;">
-          <button (click)="editContainer(container)" class="btn btn-light" style="float: left;">Edit
-            Container</button>
-          <button (click)="getContainerCode(container)" class="btn btn-info" style="float: right;"
-            title="Generate code for this container">Get container code!</button>
-        </div>
-      </li>
-    </ul>
-  </section>
-
   <!-- Displays all containers and nested components in grid layout -->
   <section *ngIf="this.containers.length">
     <div *ngFor="let container of containers" class="container-grid">
 
+      <!-- Display Container -->
       <div class="container-grid-box">
         <h5 class="text-info">{{container.name}}</h5>
 
@@ -132,6 +84,7 @@
 
         </div>
 
+        <!-- Buttons on container -->
         <div class="container-add-presenter-button">
           <button class="btn btn-sm btn-outline-secondary" style="margin-right: 5px"
             (click)="getContainerCode(container)">Get
@@ -144,7 +97,18 @@
 
       <!-- Child Presenters of Container -->
       <div *ngFor="let presenter of container.components; index as i" [ngClass]="getClassForPresenter(i)">
-        <span style="font-size: 1rem;">{{presenter.name}}</span>
+        <span *ngIf="!isEditingPresenterName" class="presenter-name"
+          (click)="enablePresenterNameChange()">{{presenter.name}}</span>
+
+        <div *ngIf="isEditingPresenterName" class="input-group input-group-sm">
+          <input type="text" name="inputName" class="form-control" autofocus
+            placeholder="Presenter name (eg. hello-world)" [(ngModel)]="presenter.name">
+          <div class="input-group-append">
+            <button class="btn btn-outline-success btn-xs" (click)="disablePresenterNameChange(presenter)">
+              Save</button>
+          </div>
+        </div>
+
 
         <!-- Display/Add Input Property -->
         <div>
@@ -236,6 +200,7 @@
 
         </div>
 
+        <!-- Get Presenter code -->
         <div class="container-add-presenter-button">
           <button class="btn btn-outline-secondary btn-sm" style="margin-right: 5px"
             (click)="getPresenterCode(presenter)">Get

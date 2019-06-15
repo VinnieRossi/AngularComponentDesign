@@ -1,3 +1,4 @@
+// Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -7,20 +8,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AutofocusModule } from 'angular-autofocus-fix';
 
+// Components
 import { AppComponent } from './app.component';
-import { CreateContainerModalComponent } from './modals/create-container-modal/create-container-modal.component';
-import { EditContainerModalComponent } from './modals/edit-container-modal/edit-container-modal.component';
-import { CreateComponentModalComponent } from './modals/create-component-modal/create-component-modal.component';
-import { EditComponentModalComponent } from './modals/edit-component-modal/edit-component-modal.component';
+import { ContainerDisplayComponent } from './container-tab/presenters/container-display/container-display.component';
+import { ContainerTabComponent } from './container-tab/containers/container-tab/container-tab.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateContainerModalComponent,
-    EditContainerModalComponent,
-    CreateComponentModalComponent,
-    EditComponentModalComponent
+    ContainerDisplayComponent,
+    ContainerTabComponent
   ],
   imports: [
     BrowserModule,
@@ -36,11 +34,9 @@ import { EditComponentModalComponent } from './modals/edit-component-modal/edit-
     })
   ],
   providers: [],
+
+  // We have to put all modal components here for ngbootstrap
   entryComponents: [
-    CreateContainerModalComponent,
-    EditContainerModalComponent,
-    CreateComponentModalComponent,
-    EditComponentModalComponent
 
   ],
   bootstrap: [AppComponent]

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditComponentModalComponent } from './edit-component-modal.component';
+import { ContainerDisplayComponent } from './container-display.component';
 
-describe('EditComponentModalComponent', () => {
-  let component: EditComponentModalComponent;
-  let fixture: ComponentFixture<EditComponentModalComponent>;
+describe('ContainerDisplayComponent', () => {
+  let component: ContainerDisplayComponent;
+  let fixture: ComponentFixture<ContainerDisplayComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditComponentModalComponent ]
+      declarations: [ ContainerDisplayComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditComponentModalComponent);
+    fixture = TestBed.createComponent(ContainerDisplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

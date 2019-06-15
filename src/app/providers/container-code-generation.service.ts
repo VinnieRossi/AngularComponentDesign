@@ -8,14 +8,14 @@ import { ContainerToHtmlService } from './container-to-html.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ContainerCreationService {
+export class ContainerCodeGenerationService {
 
   constructor(
     private containerToTsService: ContainerToTsService,
     private containerToHtmlService: ContainerToHtmlService
   ) { }
 
-  createContainerCode(container: ContainerModel, appSettings: ApplicationSettings): ComponentCode {
+  generateCodeForContainer(container: ContainerModel, appSettings: ApplicationSettings): ComponentCode {
 
     // TODO: Make the app settings reachable from shared locations
     const typescriptAsString: string = this.containerToTsService.generateTypescriptForContainer(container, appSettings);

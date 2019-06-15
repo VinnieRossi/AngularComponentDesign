@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ContainerCreationService } from './container-creation.service';
+import { ContainerCodeGenerationService } from './container-code-generation.service';
 
 describe('ContainerCreationService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ContainerCreationService = TestBed.get(ContainerCreationService);
+    const service: ContainerCodeGenerationService = TestBed.get(ContainerCodeGenerationService);
     expect(service).toBeTruthy();
   });
 });

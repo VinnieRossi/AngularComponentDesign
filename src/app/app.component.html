@@ -12,8 +12,7 @@
         <div class="col">
           <div class="form-group">
             <label for="">Indentation:</label>
-            <input type="text" name="indentAmount" class="form-control" placeholder="eg. 2"
-              [(ngModel)]="userSettings.indentAmount">
+            <input type="text" name="indentAmount" class="form-control" placeholder="eg. 2" [(ngModel)]="userSettings.indentAmount">
           </div>
         </div>
 
@@ -21,8 +20,7 @@
         <div class="col">
           <div class="form-group">
             <label for="">Application prefix:</label>
-            <input type="text" name="applicationPrefix" class="form-control" placeholder="eg. app"
-              [(ngModel)]="userSettings.applicationPrefix">
+            <input type="text" name="applicationPrefix" class="form-control" placeholder="eg. app" [(ngModel)]="userSettings.applicationPrefix">
           </div>
 
         </div>
@@ -31,8 +29,7 @@
         <div class="col">
           <div class="form-group">
             <label for="">Application Styling:</label>
-            <input type="text" name="applicationStyling" class="form-control" placeholder="eg. css"
-              [(ngModel)]="userSettings.applicationStyling">
+            <input type="text" name="applicationStyling" class="form-control" placeholder="eg. css" [(ngModel)]="userSettings.applicationStyling">
           </div>
         </div>
 
@@ -41,176 +38,21 @@
 
     <!-- Buttons for adding containers and components -->
     <div class="form-group">
-      <button class="btn btn-info" style="margin-right: 5px;" [disabled]="this.containers.length === 1"
-        (click)="createContainer()">Add
-        Container</button>
-      <button [disabled]="!this.containers.length && !this.components.length" (click)="generateModuleCode()"
-        class="btn btn-success" style="float: right;" title="Generate code for all containers and all components">Get
-        all code </button>
+      <!-- [disabled]="this.containers.length === 1" -->
+      <button class="btn btn-info" style="margin-right: 5px;" (click)="createContainer()">Add Container</button>
+      <button [disabled]="!containers.length" (click)="generateModuleCode()" class="btn btn-success" style="float: right;" title="Generate code for all containers and all components">Get all code </button>
     </div>
 
   </section>
 
+
+
   <!-- Displays all containers and nested components in grid layout -->
   <section *ngIf="this.containers.length">
-    <div *ngFor="let container of containers" class="container-grid">
+    <!-- Pass the collection of containers, let this handle the tab creation -->
+    <vin-container-tab [containers]="containers" [userSettings]="userSettings"></vin-container-tab>
+    <!-- <vin-container-display [container]="container" [userSettings]="userSettings" class="container-grid-box"></vin-container-display> -->
 
-      <!-- Display Container -->
-      <div class="container-grid-box">
-        <h5 class="text-info">{{container.name}}</h5>
-
-        <!-- Display presenter inputs on container -->
-        <div class="scrollbar scrollbar-near-moon property-container">
-          <div *ngFor="let presenter of container.components">
-            <div *ngFor="let input of presenter.inputProperties">
-              <small style="padding-right: 5px;" class="text-secondary">private {{input.name}}: {{input.type}};</small>
-              <button style="border: none;" (click)="removeInputPropertyFromPresenter(presenter, input)"
-                class="btn btn-outline-danger btn-xs">&times;</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Display event emitter handlers on container -->
-        <div class="scrollbar scrollbar-near-moon property-container">
-          <div *ngFor="let presenter of container.components">
-            <div *ngFor="let event of presenter.eventEmitters">
-              <small style="padding-right: 5px;" class="text-secondary">private
-                on{{event.name[0].toUpperCase() + event.name.substring(1)}}(event: {{event.type}}): void &#123;
-                &#125;</small>
-              <button style="border: none;" (click)="removeEventEmitterFromPresenter(presenter, event)"
-                class="btn btn-outline-danger btn-xs">&times;</button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Buttons on container -->
-        <div class="container-add-presenter-button">
-          <button class="btn btn-sm btn-outline-secondary" style="margin-right: 5px"
-            (click)="getContainerCode(container)">Get
-            Container
-            code</button>
-          <button class="btn btn-sm btn-primary" (click)="createPresenter(container)"
-            [disabled]="container.components.length >= 3">Add Presenter</button>
-        </div>
-      </div>
-
-      <!-- Child Presenters of Container -->
-      <div *ngFor="let presenter of container.components; index as i" [ngClass]="getClassForPresenter(i)">
-        <span *ngIf="!isEditingPresenterName" class="presenter-name"
-          (click)="enablePresenterNameChange()">{{presenter.name}}</span>
-
-        <div *ngIf="isEditingPresenterName" class="input-group input-group-sm">
-          <input type="text" name="inputName" class="form-control" autofocus
-            placeholder="Presenter name (eg. hello-world)" [(ngModel)]="presenter.name">
-          <div class="input-group-append">
-            <button class="btn btn-outline-success btn-xs" (click)="disablePresenterNameChange(presenter)">
-              Save</button>
-          </div>
-        </div>
-
-
-        <!-- Display/Add Input Property -->
-        <div>
-
-          <button *ngIf="!isCreatingInput" [disabled]="isCreatingEvent" (click)="showCreateInputProperty()"
-            class="btn btn-success btn-xs">+
-            Add Input Property</button>
-
-          <!-- Creating a new input property -->
-          <div *ngIf="isCreatingInput">
-
-            <!-- Input Property Name and Type-->
-            <div class="input-group input-group-sm">
-              <input type="text" name="inputName" class="form-control" autofocus
-                placeholder="Property name (eg. isVisible)" [(ngModel)]="newInputProperty.name">
-              <div class="input-group-append">
-                <div class="row">
-                  <div class="col">
-                    <div ngbDropdown class="d-inline-block">
-                      <button class="btn btn-outline-secondary btn-sm" style="border-radius: 0px" name="inputType"
-                        id="dropdownBasic1" ngbDropdownToggle>{{newInputProperty.type}}</button>
-                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                        <button ngbDropdownItem *ngFor="let type of supportedTypes"
-                          (click)="setPropertyType(type)">{{type}}</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <button class="btn btn-outline-success btn-xs" (click)="createInputPropertyForPresenter(presenter)">+
-                  Add</button>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- List of all Input Properties -->
-          <div class="scrollbar scrollbar-near-moon property-container">
-            <div *ngFor="let input of presenter.inputProperties">
-              <small style="padding-right: 5px;" class="text-secondary">@Input() {{input.name}}: {{input.type}};</small>
-              <button style="border: none;" (click)="removeInputPropertyFromPresenter(presenter, input)"
-                class="btn btn-outline-danger btn-xs">&times;</button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Display/Add Event Emitter -->
-        <div>
-
-          <button *ngIf="!isCreatingEvent" [disabled]="isCreatingInput" (click)="showCreateEventEmitter()"
-            class="btn btn-success btn-xs">+ Add Event
-            Emitter</button>
-
-          <!-- Creating a new Event Emitter -->
-          <div *ngIf="isCreatingEvent">
-
-            <!-- Event Emitter Name and Type-->
-            <div class="input-group input-group-sm">
-              <input type="text" name="inputName" class="form-control" autofocus placeholder="Emitter name (eg. close)"
-                [(ngModel)]="newEventEmitter.name">
-              <div class="input-group-append">
-                <div class="row">
-                  <div class="col">
-                    <div ngbDropdown class="d-inline-block">
-                      <button class="btn btn-outline-secondary btn-sm" style="border-radius: 0px" name="inputType"
-                        id="dropdownBasic1" ngbDropdownToggle>{{newEventEmitter.type}}</button>
-                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                        <button ngbDropdownItem *ngFor="let type of supportedTypes"
-                          (click)="setEmitterType(type)">{{type}}</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <button class="btn btn-outline-success btn-xs" (click)="createEventEmitterForPresenter(presenter)">+
-                  Add</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- List of all Event Emitters -->
-          <div class="scrollbar scrollbar-near-moon property-container">
-            <div *ngFor="let event of presenter.eventEmitters">
-              <small style="padding-right: 5px;" class="text-secondary">@Output() {{event.name}}:
-                EventEmitter&lt;{{event.type}}&gt;</small>
-              <button style="border: none;" (click)="removeEventEmitterFromPresenter(presenter, event)"
-                class="btn btn-outline-danger btn-xs">&times;</button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Get Presenter code -->
-        <div class="container-add-presenter-button">
-          <button class="btn btn-outline-secondary btn-sm" style="margin-right: 5px"
-            (click)="getPresenterCode(presenter)">Get
-            Presenter
-            code</button>
-        </div>
-
-      </div>
-
-    </div>
   </section>
 
 </div>

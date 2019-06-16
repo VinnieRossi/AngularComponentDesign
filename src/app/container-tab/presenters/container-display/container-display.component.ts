@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ContainerModel } from 'src/app/models/container.model';
 import { PresenterModel, PropertyModel, EventEmitterModel } from 'src/app/models/component.model';
-import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 const uuidv1 = require('uuid/v1');
 
@@ -10,26 +9,22 @@ const uuidv1 = require('uuid/v1');
   templateUrl: './container-display.component.html',
   styleUrls: ['./container-display.component.css']
 })
-export class ContainerDisplayComponent implements OnInit {
+export class ContainerDisplayComponent {
 
   @Input() container: ContainerModel;
 
   @Output() generateContainerCode: EventEmitter<ContainerModel> = new EventEmitter<ContainerModel>();
 
-  modalOptions: NgbModalOptions = {
-    backdrop: 'static',
-    keyboard: false,
-    size: 'lg'
-  };
-
   constructor() { }
-
-  ngOnInit() { }
 
   removeInputClicked(presenter: PresenterModel, prop: PropertyModel): void {
 
     presenter.inputProperties = presenter.inputProperties.filter(ip => ip.id !== prop.id);
+  }
 
+  removeEventEmitterClicked(presenter: PresenterModel, event: EventEmitterModel): void {
+
+    presenter.eventEmitters = presenter.eventEmitters.filter(ev => ev.id !== event.id);
   }
 
   createPresenterClicked(container: ContainerModel): void {
@@ -43,17 +38,9 @@ export class ContainerDisplayComponent implements OnInit {
     };
 
     container.components = [...container.components, tempComponent];
-
-  }
-
-  removeEventEmitterClicked(presenter: PresenterModel, event: EventEmitterModel): void {
-
-    presenter.eventEmitters = presenter.eventEmitters.filter(ev => ev.id !== event.id);
-
   }
 
   generateContainerCodeClicked(container: ContainerModel): void {
-
     // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file?
     this.generateContainerCode.emit(container);
 

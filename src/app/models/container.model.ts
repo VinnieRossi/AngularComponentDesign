@@ -1,7 +1,7 @@
-import { ComponentModel } from './component.model';
+import { PresenterModel } from './component.model';
 
 export interface ContainerModel {
     id: string;
     name: string;
-    components: Array<ComponentModel>;
+    components: Array<PresenterModel>;
 }

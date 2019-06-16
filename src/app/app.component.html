@@ -1,9 +1,8 @@
-<!-- style="height: 50vh; overflow-y: auto"  -->
 <div class="scrollbar scrollbar-near-moon" style="padding-right: .5rem;">
   <h2>Angular Component Designer</h2>
+
   <!-- Form containing app settings and container/component buttons -->
   <section>
-    <h5>Application Settings</h5>
     <!-- App settings at the top of the page -->
     <section>
       <div class="row" style="width: 50%;">
@@ -38,20 +37,17 @@
 
     <!-- Buttons for adding containers and components -->
     <div class="form-group">
-      <!-- [disabled]="this.containers.length === 1" -->
       <button class="btn btn-info" style="margin-right: 5px;" (click)="createContainer()">Add Container</button>
       <button [disabled]="!containers.length" (click)="generateModuleCode()" class="btn btn-success" style="float: right;" title="Generate code for all containers and all components">Get all code </button>
     </div>
 
   </section>
 
-
-
-  <!-- Displays all containers and nested components in grid layout -->
+  <!-- Displays all containers and nested components in tabs -->
   <section *ngIf="this.containers.length">
-    <!-- Pass the collection of containers, let this handle the tab creation -->
+
+    <!-- Responsible for handling tabs and containers -->
     <vin-container-tab [containers]="containers" [userSettings]="userSettings"></vin-container-tab>
-    <!-- <vin-container-display [container]="container" [userSettings]="userSettings" class="container-grid-box"></vin-container-display> -->
 
   </section>
 

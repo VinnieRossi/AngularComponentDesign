@@ -1,6 +1,6 @@
 import { ApplicationSettings } from '../models/application-settings.model';
 import { Injectable } from '@angular/core';
-import { ComponentModel } from '../models/component.model';
+import { PresenterModel } from '../models/component.model';
 import { ComponentToTsService } from './component-to-ts.service';
 import { ComponentToHtmlService } from './component-to-html.service';
 import { ComponentCode } from '../models/component-code.model';
@@ -15,7 +15,7 @@ export class ComponentCreationService {
     private componentToHtmlService: ComponentToHtmlService
   ) { }
 
-  createComponentCode(component: ComponentModel, appSettings: ApplicationSettings): ComponentCode {
+  createComponentCode(component: PresenterModel, appSettings: ApplicationSettings): ComponentCode {
 
     // TODO: Make the app settings reachable from shared locations 
     const typescriptAsString: string = this.componentToTsService.generateTypescriptForComponent(component, appSettings);

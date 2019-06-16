@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ContainerModel } from 'src/app/models/container.model';
 import { ApplicationSettings } from 'src/app/models/application-settings.model';
-import { SupportedTypescriptTypes, PropertyModel, EventEmitterModel, ComponentModel } from 'src/app/models/component.model';
+import { SupportedTypescriptTypes, PropertyModel, EventEmitterModel, PresenterModel } from 'src/app/models/component.model';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentCreationService } from 'src/app/providers/component-creation.service';
 import { ContainerCodeGenerationService } from 'src/app/providers/container-code-generation.service';
@@ -63,20 +63,20 @@ export class ContainerTabComponent implements OnInit {
     this.selectedContainer = container;
   }
 
-  removeInputPropertyFromPresenter(presenter: ComponentModel, prop: PropertyModel): void {
+  removeInputPropertyFromPresenter(presenter: PresenterModel, prop: PropertyModel): void {
 
     presenter.inputProperties = presenter.inputProperties.filter(ip => ip.id !== prop.id);
 
   }
 
 
-  removeEventEmitterFromPresenter(presenter: ComponentModel, event: EventEmitterModel): void {
+  removeEventEmitterFromPresenter(presenter: PresenterModel, event: EventEmitterModel): void {
 
     presenter.eventEmitters = presenter.eventEmitters.filter(ev => ev.id !== event.id);
 
   }
 
-  getContainerCode(container: ContainerModel): void {
+  generateContainerCode(container: ContainerModel): void {
 
     // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file?
 
@@ -87,7 +87,7 @@ export class ContainerTabComponent implements OnInit {
 
   createPresenter(container: ContainerModel): void {
 
-    const tempComponent: ComponentModel = {
+    const tempComponent: PresenterModel = {
       id: uuidv1(),
       name: `HelloWorld${container.components.length + 1}`,
       inputProperties: [],
@@ -166,7 +166,7 @@ export class ContainerTabComponent implements OnInit {
     this.isCreatingEvent = true;
   }
 
-  createInputPropertyForPresenter(presenter: ComponentModel): void {
+  createInputPropertyForPresenter(presenter: PresenterModel): void {
 
     presenter.inputProperties = [...presenter.inputProperties, this.newInputProperty];
 
@@ -180,7 +180,7 @@ export class ContainerTabComponent implements OnInit {
 
   }
 
-  createEventEmitterForPresenter(presenter: ComponentModel): void {
+  createEventEmitterForPresenter(presenter: PresenterModel): void {
 
     presenter.eventEmitters = [...presenter.eventEmitters, this.newEventEmitter];
 
@@ -205,7 +205,7 @@ export class ContainerTabComponent implements OnInit {
   }
 
 
-  getPresenterCode(component: ComponentModel): void {
+  getPresenterCode(component: PresenterModel): void {
 
     // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file
 

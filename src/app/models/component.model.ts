@@ -1,5 +1,5 @@
 import { ContainerModel } from 'src/app/models/container.model';
-export interface ComponentModel {
+export interface PresenterModel {
     id: string; // Unique identifier
     name: string; // Name of component in pascal case, eg. "HelloWorld"
     inputProperties: Array<PropertyModel>; // List of input properties the component will possess

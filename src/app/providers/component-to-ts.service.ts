@@ -1,4 +1,4 @@
-import { ComponentModel, PropertyModel, EventEmitterModel } from '../models/component.model';
+import { PresenterModel, PropertyModel, EventEmitterModel } from '../models/component.model';
 import { Injectable } from '@angular/core';
 import { kebabCase } from 'lodash';
 import { ApplicationSettings } from '../models/application-settings.model';
@@ -10,7 +10,7 @@ export class ComponentToTsService {
 
   constructor() { }
 
-  generateTypescriptForComponent(component: ComponentModel, appSettings: ApplicationSettings): string {
+  generateTypescriptForComponent(component: PresenterModel, appSettings: ApplicationSettings): string {
 
     const componentNameKebabCase: string = kebabCase(component.name);
 
@@ -74,7 +74,7 @@ export class ${component.name}Component implements OnInit {
 
   private convertEventEmitterToString(eventEmitter: EventEmitterModel): string {
 
-    const emitterAsString: string = `@Output() ${eventEmitter.name}: EventEmitter<${eventEmitter.type}> = new EventEmitter();`;
+    const emitterAsString: string = `@Output() ${eventEmitter.name}: EventEmitter<${eventEmitter.type}> = new EventEmitter<${eventEmitter.type}>();`;
 
     return emitterAsString;
 

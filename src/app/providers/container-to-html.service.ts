@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ContainerModel } from '../models/container.model';
 import { ApplicationSettings } from '../models/application-settings.model';
 import { kebabCase, capitalize } from 'lodash';
-import { ComponentModel } from '../models/component.model';
+import { PresenterModel } from '../models/component.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ ${componentAsHtmlString.join('\n\n')}
     return containerAsHtmlString;
   }
 
-  private createHtmlForComponent(component: ComponentModel, appSettings: ApplicationSettings): string {
+  private createHtmlForComponent(component: PresenterModel, appSettings: ApplicationSettings): string {
 
     const properties: Array<string> = component.inputProperties.map(prop => `[${prop.name}]="${prop.name}"`);
 

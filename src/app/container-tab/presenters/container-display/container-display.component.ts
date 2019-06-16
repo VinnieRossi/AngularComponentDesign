@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ContainerModel } from 'src/app/models/container.model';
-import { ComponentModel, PropertyModel, EventEmitterModel, SupportedTypescriptTypes } from 'src/app/models/component.model';
+import { PresenterModel, PropertyModel, EventEmitterModel, SupportedTypescriptTypes } from 'src/app/models/component.model';
 import { ComponentCode } from 'src/app/models/component-code.model';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentCreationService } from 'src/app/providers/component-creation.service';
@@ -18,7 +18,10 @@ const uuidv1 = require('uuid/v1');
 export class ContainerDisplayComponent implements OnInit {
 
   @Input() container: ContainerModel;
-  @Input() userSettings: ApplicationSettings;
+
+  @Output() generateContainerCode: EventEmitter<ContainerModel> = new EventEmitter<ContainerModel>();
+  @Output() generatePresenterCode: EventEmitter<PresenterModel> = new EventEmitter<PresenterModel>();
+
 
   // So we can put type options in the dropdown
   supportedTypes = Object.values(SupportedTypescriptTypes);
@@ -47,39 +50,20 @@ export class ContainerDisplayComponent implements OnInit {
 
   constructor(
     private componentCreationService: ComponentCreationService,
-    private containerCodeGenerationService: ContainerCodeGenerationService,
-    private modalService: NgbModal,
-    private toastr: ToastrService
+    private containerCodeGenerationService: ContainerCodeGenerationService
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
-  removeInputPropertyFromPresenter(presenter: ComponentModel, prop: PropertyModel): void {
+  removeInputClicked(presenter: PresenterModel, prop: PropertyModel): void {
 
     presenter.inputProperties = presenter.inputProperties.filter(ip => ip.id !== prop.id);
 
   }
 
+  createPresenterClicked(container: ContainerModel): void {
 
-  removeEventEmitterFromPresenter(presenter: ComponentModel, event: EventEmitterModel): void {
-
-    presenter.eventEmitters = presenter.eventEmitters.filter(ev => ev.id !== event.id);
-
-  }
-
-  getContainerCode(container: ContainerModel): void {
-
-    // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file?
-
-    const containerCode: ComponentCode = this.containerCodeGenerationService.generateCodeForContainer(container, this.userSettings);
-
-    console.log(containerCode);
-  }
-
-  createPresenter(container: ContainerModel): void {
-
-    const tempComponent: ComponentModel = {
+    const tempComponent: PresenterModel = {
       id: uuidv1(),
       name: `HelloWorld${container.components.length + 1}`,
       inputProperties: [],
@@ -94,13 +78,29 @@ export class ContainerDisplayComponent implements OnInit {
   }
 
 
+
+  removeEventEmitterClicked(presenter: PresenterModel, event: EventEmitterModel): void {
+
+    presenter.eventEmitters = presenter.eventEmitters.filter(ev => ev.id !== event.id);
+
+  }
+
+  generateContainerCodeClicked(container: ContainerModel): void {
+
+    // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file?
+    this.generateContainerCode.emit(container);
+
+  }
+
+
+
   enablePresenterNameChange(): void {
     this.isEditingPresenterName = true;
   }
 
 
 
-  disablePresenterNameChange(): void {
+  savePresenterNameClicked(): void {
     this.isEditingPresenterName = false;
   }
 
@@ -148,17 +148,17 @@ export class ContainerDisplayComponent implements OnInit {
   }
 
 
-  showCreateInputProperty(): void {
+  showCreateInputPropertyClicked(): void {
 
     this.isCreatingInput = true;
 
   }
 
-  showCreateEventEmitter(): void {
+  showCreateEventEmitterClicked(): void {
     this.isCreatingEvent = true;
   }
 
-  createInputPropertyForPresenter(presenter: ComponentModel): void {
+  createInputPropertyClicked(presenter: PresenterModel): void {
 
     presenter.inputProperties = [...presenter.inputProperties, this.newInputProperty];
 
@@ -172,7 +172,7 @@ export class ContainerDisplayComponent implements OnInit {
 
   }
 
-  createEventEmitterForPresenter(presenter: ComponentModel): void {
+  createEventEmitterClicked(presenter: PresenterModel): void {
 
     presenter.eventEmitters = [...presenter.eventEmitters, this.newEventEmitter];
 
@@ -197,13 +197,11 @@ export class ContainerDisplayComponent implements OnInit {
   }
 
 
-  getPresenterCode(component: ComponentModel): void {
+  generatePresenterCodeClicked(component: PresenterModel): void {
 
     // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file
-
-    const componentCode: ComponentCode = this.componentCreationService.createComponentCode(component, this.userSettings);
-
-    console.log(componentCode);
+    this.generatePresenterCode.emit(component);
   }
+
 
 }

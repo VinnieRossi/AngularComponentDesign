@@ -9,7 +9,7 @@ import { ContainerCodeGenerationService } from './providers/container-code-gener
 const uuidv1 = require('uuid/v1');
 
 @Component({
-  selector: 'app-root',
+  selector: 'vin-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

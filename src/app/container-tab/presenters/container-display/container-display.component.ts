@@ -1,12 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ContainerModel } from 'src/app/models/container.model';
-import { PresenterModel, PropertyModel, EventEmitterModel, SupportedTypescriptTypes } from 'src/app/models/component.model';
-import { ComponentCode } from 'src/app/models/component-code.model';
-import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ComponentCreationService } from 'src/app/providers/component-creation.service';
-import { ContainerCodeGenerationService } from 'src/app/providers/container-code-generation.service';
-import { ToastrService } from 'ngx-toastr';
-import { ApplicationSettings } from 'src/app/models/application-settings.model';
+import { PresenterModel, PropertyModel, EventEmitterModel } from 'src/app/models/component.model';
+import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 const uuidv1 = require('uuid/v1');
 
@@ -20,11 +15,6 @@ export class ContainerDisplayComponent implements OnInit {
   @Input() container: ContainerModel;
 
   @Output() generateContainerCode: EventEmitter<ContainerModel> = new EventEmitter<ContainerModel>();
-  @Output() generatePresenterCode: EventEmitter<PresenterModel> = new EventEmitter<PresenterModel>();
-
-
-  // So we can put type options in the dropdown
-  supportedTypes = Object.values(SupportedTypescriptTypes);
 
   modalOptions: NgbModalOptions = {
     backdrop: 'static',
@@ -32,26 +22,7 @@ export class ContainerDisplayComponent implements OnInit {
     size: 'lg'
   };
 
-  isCreatingInput: boolean = false;
-  isCreatingEvent: boolean = false;
-  isEditingPresenterName: boolean = false;
-
-  newInputProperty: PropertyModel = {
-    id: uuidv1(),
-    name: '',
-    type: SupportedTypescriptTypes.String
-  };
-
-  newEventEmitter: EventEmitterModel = {
-    id: uuidv1(),
-    name: '',
-    type: SupportedTypescriptTypes.String
-  };
-
-  constructor(
-    private componentCreationService: ComponentCreationService,
-    private containerCodeGenerationService: ContainerCodeGenerationService
-  ) { }
+  constructor() { }
 
   ngOnInit() { }
 
@@ -73,11 +44,7 @@ export class ContainerDisplayComponent implements OnInit {
 
     container.components = [...container.components, tempComponent];
 
-    // this.components = [...this.components, tempComponent];
-
   }
-
-
 
   removeEventEmitterClicked(presenter: PresenterModel, event: EventEmitterModel): void {
 
@@ -91,19 +58,6 @@ export class ContainerDisplayComponent implements OnInit {
     this.generateContainerCode.emit(container);
 
   }
-
-
-
-  enablePresenterNameChange(): void {
-    this.isEditingPresenterName = true;
-  }
-
-
-
-  savePresenterNameClicked(): void {
-    this.isEditingPresenterName = false;
-  }
-
 
   getClassForPresenter(presenterIndex: number): any {
 
@@ -146,62 +100,5 @@ export class ContainerDisplayComponent implements OnInit {
 
     return classArray;
   }
-
-
-  showCreateInputPropertyClicked(): void {
-
-    this.isCreatingInput = true;
-
-  }
-
-  showCreateEventEmitterClicked(): void {
-    this.isCreatingEvent = true;
-  }
-
-  createInputPropertyClicked(presenter: PresenterModel): void {
-
-    presenter.inputProperties = [...presenter.inputProperties, this.newInputProperty];
-
-    this.newInputProperty = {
-      id: uuidv1(),
-      name: '',
-      type: SupportedTypescriptTypes.String
-    };
-
-    this.isCreatingInput = false;
-
-  }
-
-  createEventEmitterClicked(presenter: PresenterModel): void {
-
-    presenter.eventEmitters = [...presenter.eventEmitters, this.newEventEmitter];
-
-    this.newEventEmitter = {
-      id: uuidv1(),
-      name: '',
-      type: SupportedTypescriptTypes.String
-    };
-
-    this.isCreatingEvent = false;
-
-  }
-
-  setPropertyType(type: SupportedTypescriptTypes): void {
-
-    this.newInputProperty.type = type;
-  }
-
-  setEmitterType(type: SupportedTypescriptTypes): void {
-
-    this.newEventEmitter.type = type;
-  }
-
-
-  generatePresenterCodeClicked(component: PresenterModel): void {
-
-    // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file
-    this.generatePresenterCode.emit(component);
-  }
-
 
 }

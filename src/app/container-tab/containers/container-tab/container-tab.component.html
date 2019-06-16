@@ -6,4 +6,5 @@
 </ul>
 
 <!-- Container display. Only one component that accepts the container the user wants to present -->
-<vin-container-display [container]="selectedContainer" (generateContainerCode)="generateContainerCode($event)"></vin-container-display>
+<vin-container-display [container]="selectedContainer" (generateContainerCode)="generateContainerCode($event)" (generatePresenterCode)="generatePresenterCode($event)">
+</vin-container-display>

@@ -12,13 +12,15 @@ import { AutofocusModule } from 'angular-autofocus-fix';
 import { AppComponent } from './app.component';
 import { ContainerDisplayComponent } from './container-tab/presenters/container-display/container-display.component';
 import { ContainerTabComponent } from './container-tab/containers/container-tab/container-tab.component';
+import { PresenterDisplayComponent } from './container-tab/presenters/container-display/presenter-display/presenter-display.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ContainerDisplayComponent,
-    ContainerTabComponent
+    ContainerTabComponent,
+    PresenterDisplayComponent
   ],
   imports: [
     BrowserModule,

@@ -205,7 +205,7 @@ export class ContainerTabComponent implements OnInit {
   }
 
 
-  getPresenterCode(component: PresenterModel): void {
+  generatePresenterCode(component: PresenterModel): void {
 
     // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file
 

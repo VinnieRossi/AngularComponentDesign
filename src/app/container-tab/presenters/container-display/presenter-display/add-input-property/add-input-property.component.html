@@ -1,0 +1,23 @@
+<button *ngIf="!isCreatingInput" [disabled]="disabled" (click)="showCreateInputPropertyClicked()" class="btn btn-success btn-xs">+ Add Input Property</button>
+<div *ngIf="isCreatingInput">
+
+  <!-- Input Property Name and Type-->
+  <div class="input-group input-group-sm">
+    <input type="text" name="inputName" class="form-control" autofocus placeholder="Property name (eg. isVisible)" [(ngModel)]="newInputProperty.name" (keydown.esc)="closeInputProperty()"
+      (keydown.enter)="createInputPropertyClicked()">
+    <div class="input-group-append">
+      <div class="row">
+        <div class="col">
+          <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-secondary btn-sm" style="border-radius: 0px" name="inputType" id="dropdownBasic1" ngbDropdownToggle>{{newInputProperty.type}}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem *ngFor="let type of supportedTypes" (click)="setPropertyType(type)">{{type}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-outline-success btn-xs" (click)="createInputPropertyClicked()">+ Add</button>
+    </div>
+  </div>
+
+</div>

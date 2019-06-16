@@ -1,9 +1,9 @@
-<span *ngIf="!isEditingPresenterName" class="presenter-name" (click)="enablePresenterNameChange()">{{presenter.name}}</span>
+<span *ngIf="!isEditingPresenterName" class="presenter-name" (click)="isEditingPresenterName = true;">{{presenter.name}}</span>
 
 <div *ngIf="isEditingPresenterName" class="input-group input-group-sm">
   <input type="text" name="inputName" class="form-control" autofocus placeholder="Presenter name (eg. hello-world)" [(ngModel)]="presenter.name">
   <div class="input-group-append">
-    <button class="btn btn-outline-success btn-xs" (click)="savePresenterNameClicked(presenter)">Save</button>
+    <button class="btn btn-outline-success btn-xs" (click)="isEditingPresenterName = false;">Save</button>
   </div>
 </div>
 
@@ -11,31 +11,8 @@
 <!-- Display/Add Input Property -->
 <div>
 
-  <button *ngIf="!isCreatingInput" [disabled]="isCreatingEvent" (click)="showCreateInputPropertyClicked()" class="btn btn-success btn-xs">+ Add Input Property</button>
-
-  <!-- Creating a new input property -->
-  <div *ngIf="isCreatingInput">
-
-    <!-- Input Property Name and Type-->
-    <div class="input-group input-group-sm">
-      <input type="text" name="inputName" class="form-control" autofocus placeholder="Property name (eg. isVisible)" [(ngModel)]="newInputProperty.name">
-      <div class="input-group-append">
-        <div class="row">
-          <div class="col">
-            <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-outline-secondary btn-sm" style="border-radius: 0px" name="inputType" id="dropdownBasic1" ngbDropdownToggle>{{newInputProperty.type}}</button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button ngbDropdownItem *ngFor="let type of supportedTypes" (click)="setPropertyType(type)">{{type}}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button class="btn btn-outline-success btn-xs" (click)="createInputPropertyClicked(presenter)">+
-          Add</button>
-      </div>
-    </div>
-
-  </div>
+  <!-- Button and input for adding new Input Property -->
+  <vin-add-input-property [disabled]="disableAddInputProperty" (createNewInputProperty)="createInputProperty(presenter, $event)" (currentlyCreatingInputProperty)="disableAddEvent($event)"></vin-add-input-property>
 
   <!-- List of all Input Properties -->
   <div class="scrollbar scrollbar-near-moon property-container">
@@ -49,30 +26,7 @@
 
 <!-- Display/Add Event Emitter -->
 <div>
-
-  <button *ngIf="!isCreatingEvent" [disabled]="isCreatingInput" (click)="showCreateEventEmitterClicked()" class="btn btn-success btn-xs">+ Add Event Emitter</button>
-
-  <!-- Creating a new Event Emitter -->
-  <div *ngIf="isCreatingEvent">
-
-    <!-- Event Emitter Name and Type-->
-    <div class="input-group input-group-sm">
-      <input type="text" name="inputName" class="form-control" autofocus placeholder="Emitter name (eg. close)" [(ngModel)]="newEventEmitter.name">
-      <div class="input-group-append">
-        <div class="row">
-          <div class="col">
-            <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-outline-secondary btn-sm" style="border-radius: 0px" name="inputType" id="dropdownBasic1" ngbDropdownToggle>{{newEventEmitter.type}}</button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button ngbDropdownItem *ngFor="let type of supportedTypes" (click)="setEmitterType(type)">{{type}}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button class="btn btn-outline-success btn-xs" (click)="createEventEmitterClicked(presenter)">+ Add</button>
-      </div>
-    </div>
-  </div>
+  <vin-add-event-emitter [disabled]="disableAddEventEmitter" (createNewEventEmitter)="createEventEmitter(presenter, $event)" (currentlyCreatingEventEmitter)="disableAddInput($event)"></vin-add-event-emitter>
 
   <!-- List of all Event Emitters -->
   <div class="scrollbar scrollbar-near-moon property-container">

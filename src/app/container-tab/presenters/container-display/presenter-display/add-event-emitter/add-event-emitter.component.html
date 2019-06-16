@@ -1,0 +1,22 @@
+<button *ngIf="!isCreatingEvent" [disabled]="disabled" (click)="showCreateEventEmitterClicked()" class="btn btn-success btn-xs">+ Add Event Emitter</button>
+<!-- Creating a new Event Emitter -->
+<div *ngIf="isCreatingEvent">
+
+  <!-- Event Emitter Name and Type-->
+  <div class="input-group input-group-sm">
+    <input type="text" name="inputName" class="form-control" autofocus placeholder="Emitter name (eg. close)" [(ngModel)]="newEventEmitter.name" (keydown.esc)="closeEventEmitter()" (keydown.enter)="createEventEmitterClicked()">
+    <div class="input-group-append">
+      <div class="row">
+        <div class="col">
+          <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-secondary btn-sm" style="border-radius: 0px" name="inputType" id="dropdownBasic1" ngbDropdownToggle>{{newEventEmitter.type}}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem *ngFor="let type of supportedTypes" (click)="setEmitterType(type)">{{type}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-outline-success btn-xs" (click)="createEventEmitterClicked()">+ Add</button>
+    </div>
+  </div>
+</div>

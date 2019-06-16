@@ -13,6 +13,8 @@ import { AppComponent } from './app.component';
 import { ContainerDisplayComponent } from './container-tab/presenters/container-display/container-display.component';
 import { ContainerTabComponent } from './container-tab/containers/container-tab/container-tab.component';
 import { PresenterDisplayComponent } from './container-tab/presenters/container-display/presenter-display/presenter-display.component';
+import { AddInputPropertyComponent } from './container-tab/presenters/container-display/presenter-display/add-input-property/add-input-property.component';
+import { AddEventEmitterComponent } from './container-tab/presenters/container-display/presenter-display/add-event-emitter/add-event-emitter.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { PresenterDisplayComponent } from './container-tab/presenters/container-
     AppComponent,
     ContainerDisplayComponent,
     ContainerTabComponent,
-    PresenterDisplayComponent
+    PresenterDisplayComponent,
+    AddInputPropertyComponent,
+    AddEventEmitterComponent
   ],
   imports: [
     BrowserModule,

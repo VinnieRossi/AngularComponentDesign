@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { PresenterModel, PropertyModel, SupportedTypescriptTypes, EventEmitterModel } from 'src/app/models/component.model';
+import { Component, OnInit, Input, EventEmitter, Output, ApplicationRef, ViewChild } from '@angular/core';
+import { PresenterModel, PropertyModel, EventEmitterModel } from 'src/app/models/component.model';
+import { AddEventEmitterComponent } from './add-event-emitter/add-event-emitter.component';
 
 const uuidv1 = require('uuid/v1');
 
@@ -15,24 +16,11 @@ export class PresenterDisplayComponent implements OnInit {
 
   @Output() generatePresenterCode: EventEmitter<PresenterModel> = new EventEmitter<PresenterModel>();
 
-  isCreatingInput: boolean = false;
-  isCreatingEvent: boolean = false;
+  @ViewChild(AddEventEmitterComponent) addEventEmitterComponent: AddEventEmitterComponent;
+
+  disableAddEventEmitter: boolean = false;
+  disableAddInputProperty: boolean = false;
   isEditingPresenterName: boolean = false;
-
-  supportedTypes = Object.values(SupportedTypescriptTypes);
-
-  newInputProperty: PropertyModel = {
-    id: uuidv1(),
-    name: '',
-    type: SupportedTypescriptTypes.String
-  };
-
-  newEventEmitter: EventEmitterModel = {
-    id: uuidv1(),
-    name: '',
-    type: SupportedTypescriptTypes.String
-  };
-
 
   constructor() { }
 
@@ -43,59 +31,29 @@ export class PresenterDisplayComponent implements OnInit {
     this.isEditingPresenterName = true;
   }
 
-  savePresenterNameClicked(): void {
-    this.isEditingPresenterName = false;
+  disableAddEvent(shouldDisable: boolean): void {
+
+    this.disableAddEventEmitter = shouldDisable;
   }
 
-  showCreateInputPropertyClicked(): void {
-    this.isCreatingInput = true;
+  disableAddInput(shouldDisable: boolean): void {
+
+    this.disableAddInputProperty = shouldDisable;
   }
 
-  setPropertyType(type: SupportedTypescriptTypes): void {
+  createInputProperty(presenter: PresenterModel, newInputProperty: PropertyModel, ): void {
 
-    this.newInputProperty.type = type;
+    presenter.inputProperties = [...presenter.inputProperties, newInputProperty];
   }
 
-  createInputPropertyClicked(presenter: PresenterModel): void {
+  createEventEmitter(presenter: PresenterModel, newEventEmitter: EventEmitterModel): void {
 
-    presenter.inputProperties = [...presenter.inputProperties, this.newInputProperty];
-
-    this.newInputProperty = {
-      id: uuidv1(),
-      name: '',
-      type: SupportedTypescriptTypes.String
-    };
-
-    this.isCreatingInput = false;
-
+    presenter.eventEmitters = [...presenter.eventEmitters, newEventEmitter];
   }
 
   removeInputClicked(presenter: PresenterModel, prop: PropertyModel): void {
 
     presenter.inputProperties = presenter.inputProperties.filter(ip => ip.id !== prop.id);
-
-  }
-
-  showCreateEventEmitterClicked(): void {
-    this.isCreatingEvent = true;
-  }
-
-  setEmitterType(type: SupportedTypescriptTypes): void {
-
-    this.newEventEmitter.type = type;
-  }
-
-  createEventEmitterClicked(presenter: PresenterModel): void {
-
-    presenter.eventEmitters = [...presenter.eventEmitters, this.newEventEmitter];
-
-    this.newEventEmitter = {
-      id: uuidv1(),
-      name: '',
-      type: SupportedTypescriptTypes.String
-    };
-
-    this.isCreatingEvent = false;
 
   }
 
@@ -105,12 +63,10 @@ export class PresenterDisplayComponent implements OnInit {
 
   }
 
-
   generatePresenterCodeClicked(component: PresenterModel): void {
 
     // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file
     this.generatePresenterCode.emit(component);
   }
-
 
 }

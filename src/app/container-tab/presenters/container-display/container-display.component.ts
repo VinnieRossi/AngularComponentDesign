@@ -14,6 +14,7 @@ export class ContainerDisplayComponent {
   @Input() container: ContainerModel;
 
   @Output() generateContainerCode: EventEmitter<ContainerModel> = new EventEmitter<ContainerModel>();
+  @Output() generatePresenterCode: EventEmitter<PresenterModel> = new EventEmitter<PresenterModel>();
 
   constructor() { }
 
@@ -41,10 +42,16 @@ export class ContainerDisplayComponent {
   }
 
   generateContainerCodeClicked(container: ContainerModel): void {
+
     // Pull up modal with 2* tabs, each tab is file type and has button to either copy code to clipboard or download file?
     this.generateContainerCode.emit(container);
-
   }
+
+  generatePresenterCodeClicked(presenter: PresenterModel): void {
+
+    this.generatePresenterCode.emit(presenter);
+  }
+
 
   getClassForPresenter(presenterIndex: number): any {
 

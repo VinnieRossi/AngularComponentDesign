@@ -36,5 +36,5 @@
 
   <!-- Child Presenters of Container -->
   <div *ngFor="let presenter of container.components; index as i" [ngClass]="getClassForPresenter(i)">
-    <vin-presenter-display [presenter]="presenter"></vin-presenter-display>
+    <vin-presenter-display [presenter]="presenter" (generatePresenterCode)="generatePresenterCodeClicked(presenter)"></vin-presenter-display>
   </div>
